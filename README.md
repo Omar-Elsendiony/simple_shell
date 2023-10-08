@@ -3,5 +3,5 @@ This implements simple shell
 
 #### Authors
 
-Omar Elsendiony <omnar.sendiony@gmail.com>
+Omar Elsendiony <omar.sendiony@gmail.com>
 Mohammed Amer <
