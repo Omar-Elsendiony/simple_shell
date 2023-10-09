@@ -1,0 +1,37 @@
+first check number of arguement to run on interactive mode or noninteractive mode
+if has more than 1 arguemen
+{
+	run the script ant quit
+}
+else
+{
+	while true
+	{
+		print the shell msg
+		read input from user
+		replace the last char in input string which is \n to \0
+		if (msg = exit)
+			terminate with exit success state
+		get the path variable 
+		slicing the path
+		for (each path)
+		{
+			concatanate the input with the path
+			search for exe matches the user input using access systemcall (path/input)
+			if (found the exe and all the directories are accessable)
+			fork()
+			if (check for error)
+			else if (child process)
+			{
+				excev
+			}
+			else (parent process)
+			{
+				wait for the child to terminate wait()
+			}
+			else (didn't find the exe or any of its directories is not accessable)
+				print the error msg there is no such file or dir
+
+		}
+	}
+}
