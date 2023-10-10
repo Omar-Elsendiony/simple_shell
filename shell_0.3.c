@@ -5,23 +5,42 @@
 
 #define SIZE 100
 
+int _strcmp(char *s1, char *s2)
+{
+	int i, diff;
 
-char *CheckEXEInDir(char *token, char *exe)
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0')
+		i++;
+	diff = s1[i] - s2[i];
+	return (diff);
+}
+
+
+char *CheckEXEInDir(char *token, char *exe, char *buff)
 {
     int result;
     struct dirent *entry;
     DIR *dir = opendir(token);
 
-    result = access (exe, F_OK);
-    while ((entry = readdir(dir)) != NULL)
+    result = access(exe, F_OK);
+    if (result == -1)
+        while ((entry = readdir(dir)) != NULL)
+        {
+            if (entry->d_type == 4 && !_strcmp(entry->d_name, ".") && !_strcmp(entry->d_name, ".."))
+                CheckEXEInDir(entry->d_name, exe, buff);
+        }
+    else
     {
-        printf("%d \n", entry->d_type);
+        return (getcwd(buff, SIZE));
     }
+    return (NULL);
 }
 
 char *readPath(char *path, char *delim)
 {
     char *tokens;
+    char buff[SIZE] = {0};
 
     tokens = strtok(path, delim);
     // k = 0;
@@ -30,12 +49,15 @@ char *readPath(char *path, char *delim)
     //     printf("%s\n--------------------------\n", tokens[k++]);
     // }
     while (tokens != NULL) {
-        printf(" %s\n", tokens);
+        // printf(" %s\n", tokens);
         tokens = strtok(NULL, delim);
-        CheckEXEInDir("/bin", "ls");
+        if (CheckEXEInDir("testDir", "hllo", buff) != NULL)
+        {
+            printf("%s ***********", buff);
+            break;
+        }
     }
 
-    
 }
 
 
@@ -48,10 +70,9 @@ int main(int arc, char **argv, char ** envir)
 {
     int i, j, k;
     char *comparator = "PATH";
-    char *buff[SIZE];
+    
     char *path, *delim = ":", *brokenString;
 
-    getcwd(*buff, SIZE);
     for (i = 0; envir[i] != NULL; i++)
     {
         if (envir[i][0] == 'P')
@@ -69,9 +90,7 @@ int main(int arc, char **argv, char ** envir)
             }
         }
     }
-    printf("%s\n--------------------------\n", path);
-    // readPath(path, delim);
+    // printf("%s\n--------------------------\n", path);
+    readPath(path, delim);
 
-    int result = access ("oe", F_OK);
-    printf("%d\n", result);
 }
