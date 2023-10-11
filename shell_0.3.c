@@ -119,6 +119,7 @@ int main(int arc, char **argv, char ** envir)
     int i, j, k, childID;
     char *comparator = "PATH";
     char *path, *delim = ":", *brokenString;
+    
 
     if (execve("/bin/l", argv, envir) == -1)
     {
