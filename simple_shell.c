@@ -26,7 +26,7 @@ int main(int argc, char *argv[], char *envp[])
 
 		while (1)
 		{
-
+			printf("%s\n", binPathes[i]);
 			write(STDOUT_FILENO, "$ ", 2);
 			getline(&inputStr, &numOfLettGetline, stdin);
 			fflush(stdin);

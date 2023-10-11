@@ -33,6 +33,7 @@ int word_count(char *str, char del)
 	{
 		if (str[i] == del)
 			++countOfWords;
+		++i;
 	}
 	++countOfWords;
 	return (countOfWords);
@@ -56,7 +57,6 @@ char **slicing(char *str, char del)
 	word_count(str, del);
 	arr = malloc(sizeof(char *) * numOfWord + 1);
 	arr[numOfWord] = NULL;
-	i = 0;
 	while (i < numOfWord)
 	{
 		numOfLett = lett_count(&str[j], ' ');
@@ -78,15 +78,31 @@ char **pathSlice(char **env)
 {
 	int i = 0;
 	char *str = NULL;
+	char **pathes = NULL;
 
 	while (env[i])
 	{
-		if (_strncmp(env[i], "PATH=", 5))
+		if (_strncmp(env[i], "PATH=", 5) == 0)
 		{
-			str = &env[i][5];
+			str = &env[i][6];
 			break;
 		}
 		++i;
 	}
-	return (slicing(str, ':'));
+	pathes = slicing(str, ':');
+	return (pathes);
+}
+
+int main(int argc, char *argv[], char *envp[])
+{
+	int i = 0;
+	char **pa = NULL;
+
+	pa = pathSlice(envp);
+	while (pa[i])
+	{
+		printf("%s\n", pa[i]);
+		++i;
+	}
+	return 0;
 }
