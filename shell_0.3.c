@@ -114,8 +114,16 @@ int main(int arc, char **argv, char **envir)
 	int i, j, k, childID;
 	char *comparator = "PATH";
 	char *path, *delim = ":", *brokenString;
-	char *exe = "ls";
+	char *exe = NULL;
+	long int n = 0;
+	int r = 0;
 
+	getline(&exe, &n, stdin);
+	while (exe[r])
+	{
+		++r;
+	}
+	exe[r - 1] = '\0';
 	if (execve(exe, argv, envir) == -1)
 	{
 		int parentID = getpid();
