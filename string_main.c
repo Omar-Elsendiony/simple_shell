@@ -47,6 +47,32 @@ int _strncmp(char *s1, char *s2, int n)
 }
 
 /**
+ * _strncpy - copy a string to n char
+ * @dest: pointer to frist buffer
+ * @src: pointer to the srouce bffuer
+ * @n: number of char to be copied
+ * Return: pointer to the dest buffer
+ */
+char *_strncpy(char *dest, char *src, int n)
+{
+	int i;
+
+	for (i = 0; i < n; ++i)
+	{
+		dest[i] = src[i];
+		if (src[i] == '\0')
+		{
+			while (i < n)
+			{
+				dest[i] = 0;
+				++i;
+			}
+		}
+	}
+	return (dest);
+}
+
+/**
  * _strlen - funct to find the length of str
  * @s: pointer to frist letter of the str
  * Return: number of letters (int)
@@ -65,10 +91,10 @@ int _strlen(char *s)
 }
 
 /**
- * _strcat - concatenate two str
- * @dest: the buffer that recieves the output
- * @src: the buffer to read from
- * Return: pointer to char (dest)
+ * _strcatheap - concatenate two str dynamically
+ * @dest: the frist str
+ * @src: the sec str
+ * Return: pointer to char (mallocated memory)
  */
 
 char *_strcatheap(char *dest, char *src)

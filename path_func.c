@@ -1,66 +1,63 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-
-/*
- *this will be replacement for strtok in the future hope to finish it
- */
+#include "simple_shell.h"
 
 /**
- * _strncpy - copy a string to n char
- * @dest: pointer to frist buffer
- * @src: pointer to the srouce bffuer
- * @n: number of char to be copied
- * Return: pointer to the dest buffer
+ * lett_count - count number of letters to certain delimtter
+ * @str: the string
+ * @del: delimeter the stop point for counting
+ * Return: number of letters
  */
-char *_strncpy(char *dest, char *src, int n)
-{
-	int i;
-
-	for (i = 0; i < n; ++i)
-	{
-		dest[i] = src[i];
-		if (src[i] == '\0')
-		{
-			while (i < n)
-			{
-				dest[i] = 0;
-				++i;
-			}
-		}
-	}
-	return (dest);
-}
-
-int lett_count(char *st, char del)
+int lett_count(char *str, char del)
 {
 	int i = 0;
 
-	while (st[i] != del && st[i])
+	while (str[i] != del && str[i])
 	{
 		++i;
 	}
 	return (i);
 }
 
-char **str_sli(char *str)
+/**
+ * word_count - count number of words in a str delimeted by a delimmter
+ * @str: the string
+ * @del: delimeter of words
+ * Return: number of words
+ */
+
+int word_count(char *str, char del)
 {
 	int i = 0;
-	int z = 0;
+	int countOfWords = 0;
+
+	while (str[i])
+	{
+		if (str[i] == del)
+			++countOfWords;
+	}
+	++countOfWords;
+	return (countOfWords);
+}
+
+/**
+ * slicing - cut string into number of substring based on delimeter
+ * @str: the string
+ * @del: delimeter of strings
+ * Return: array of strings
+ */
+
+char **slicing(char *str, char del)
+{
+	int i = 0;
 	int j = 0;
 	int numOfLett = 0;
+	int numOfWord = 0;
 	char **arr = NULL;
 
-	for (i = 0; str[i]; ++i)
-	{
-		if (str[i] == ' ')
-			++z;
-	}
-	++z;
-	arr = malloc(sizeof(char *) * z + 1);
-	arr[z] = NULL;
+	word_count(str, del);
+	arr = malloc(sizeof(char *) * numOfWord + 1);
+	arr[numOfWord] = NULL;
 	i = 0;
-	while (i < z)
+	while (i < numOfWord)
 	{
 		numOfLett = lett_count(&str[j], ' ');
 		arr[i] = malloc(numOfLett + 1);
@@ -72,26 +69,23 @@ char **str_sli(char *str)
 	return (arr);
 }
 
-extern char **__environ;
-int main(int argc, char **argv, char **envp)
+/**
+ * pathSlice - wrap func for slicing func to pick the PATH var from env vars
+ * @env: the environmental variables
+ * Return: array of strings
+ */
+char **pathSlice(char **env)
 {
-	char **arr;
 	int i = 0;
-	int z = 0;
-	char *ptr = 0;
-	size_t n = 0;
+	char *str = NULL;
 
-	printf("$ ");
-	getline(&ptr, &n, stdin);
-	while (ptr[z])
+	while (env[i])
 	{
-		if (ptr[z] == '\n')
+		if (_strncmp(env[i], "PATH=", 5))
 		{
-			ptr[z] = '\0';
+			str = &env[i][5];
 			break;
 		}
-		++z;
 	}
-	execve(ptr, argv, __environ);
-	return (0);
+	return (slicing(str, ':'));
 }

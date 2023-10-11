@@ -1,5 +1,12 @@
 #include "simple_shell.h"
 
+/**
+ * main - the main entry point
+ * @argc: num of argu
+ * @argv: array of arg
+ * @envp: the environmental var
+ * Return: 0 on success, a state on failure
+ */
 int main(int argc, char *argv[], char *envp[])
 {
 	const char *errorMsg = "there is no such file of directory\n";
@@ -15,7 +22,7 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	else
 	{
-		binPathes = pathSlice(envp); /*write the function to slice the path and return array of strings PS it will be heap mem free function will be written and other functions for word count and letters count */
+		binPathes = pathSlice(envp);
 		while (1)
 		{
 			write(stdout, "$ ", 2);
@@ -23,12 +30,12 @@ int main(int argc, char *argv[], char *envp[])
 			fflush(stdin);
 			if (_strcmp(inputStr, "exit") == 0)
 				_exit(EXIT_SUCCESS);
-			for (binPathes[i])
+			for (i = 0; binPathes[i]; ++i)
 			{
 				inputStrFullName = _strcatheap(binPathes[i], inputStr);
 				if (access(inputStrFullName, X_OK) == 0)
 				{
-					forkEce(char *pinter, argv, argc, envp); /*write a function to fork and execute the programme*/
+					forkEce(inputStrFullName, argv, envp);
 				}
 				else
 				{
