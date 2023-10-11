@@ -104,31 +104,36 @@ char *readPath(char *pathDir, char *delim, char *exe)
  */
 int main(int arc, char **argv, char ** envir)
 {
-    int i, j, k;
+    int i, j, k, childID;
     char *comparator = "PATH";
     char *path, *delim = ":", *brokenString;
 
-    int parentID = getpid();
-    for (i = 0; envir[i] != NULL; i++)
+    if (execve("/bin/l", argv, envir) == -1)
     {
-        if (envir[i][0] == 'P')
+        int parentID = getpid();
+        for (i = 0; envir[i] != NULL; i++)
         {
-            j = 1;
-            while (envir[i][j] == comparator[j] && envir[i][j] != '\0')
+            if (envir[i][0] == 'P')
             {
-                j++;
-            }
-            if (comparator[j] == '\0')
-            {
-                path = *(envir + i) + j + 1;
-                break;
+                j = 1;
+                while (envir[i][j] == comparator[j] && envir[i][j] != '\0')
+                {
+                    j++;
+                }
+                if (comparator[j] == '\0')
+                {
+                    path = *(envir + i) + j + 1;
+                    break;
+                }
             }
         }
+
+        path = readPath(path, delim, "ls");
+        fork();
+        if (getpid() != parentID)
+            if (execve(path, argv, envir) == -1)
+                perror("Could not execve");
     }
-    // printf("%s\n--------------------------\n", path);
-    path = readPath(path, delim, "ls");
-    fork();
-    if (getpid() != parentID)
-        if (execve(path, argv, envir) == -1)
-            perror("Could not execve");
+
+
 }
