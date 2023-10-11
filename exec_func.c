@@ -1,4 +1,4 @@
-#include "simple_shell.h"
+#include "main.h"
 
 /**
  * forkExe - fork a process and exec command

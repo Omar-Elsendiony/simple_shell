@@ -1,4 +1,4 @@
-#include "simple_shell.h"
+#include "main.h"
 
 /**
  * lett_count - count number of letters to certain delimtter

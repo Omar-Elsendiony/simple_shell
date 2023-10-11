@@ -1,4 +1,4 @@
-#include "simple_shell.h"
+#include "main.h"
 /**
  * _strcmp - compare two string
  * @s1: pointer to frist string

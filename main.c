@@ -1,4 +1,4 @@
-#include "simple_shell.h"
+#include "main.h"
 
 /**
  * main - the main entry point
@@ -16,21 +16,32 @@ int main(int argc, char *argv[], char *envp[])
 	char **binPathes = NULL;
 	int i = 0; /*iterator alaways i will be used as iterator*/
 
+	binPathes = pathSlice(envp);
 	if (argc > 1)
 	{
 		/* run in non interactive mode */
 	}
-	else
+	while (1)
 	{
-		binPathes = pathSlice(envp);
-
-		while (1)
+		write(STDOUT_FILENO, "$ ", 2);
+		getline(&inputStr, &numOfLettGetline, stdin);
+		fflush(stdin);
+		if (_strcmp(inputStr, "exit") == 0)
+			_exit(EXIT_SUCCESS);
+		if (inputStr[0] == '/')
 		{
-			write(STDOUT_FILENO, "$ ", 2);
-			getline(&inputStr, &numOfLettGetline, stdin);
-			fflush(stdin);
-			if (_strcmp(inputStr, "exit") == 0)
-				_exit(EXIT_SUCCESS);
+			if (access(inputStr, F_OK) == 0)
+			{
+				forkExe(inputStr, argv, envp);
+			}
+			else
+			{
+				write(STDOUT_FILENO, errorMsg, _strlen(errorMsg));
+				continue;
+			}
+		}
+		else
+		{
 			i = 0;
 			while (binPathes[i])
 			{
@@ -58,8 +69,8 @@ int main(int argc, char *argv[], char *envp[])
 			free(inputStrFullName);
 			printf("this is here\n");
 		}
-		printf("this is outttttttttt\n");
-		free(inputStr);
-		free2dArr(binPathes);
 	}
+	printf("this is outttttttttt\n");
+	free(inputStr);
+	free2dArr(binPathes);
 }
