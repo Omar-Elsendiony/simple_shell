@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <unistd.h>
-#include <string.h>
 #include <dirent.h>
-
+#include <string.h>
+#include "utility.h"
 #define SIZE 100
+
+
+
+
 
 int _strcmp(char *s1, char *s2)
 {
@@ -17,32 +21,62 @@ int _strcmp(char *s1, char *s2)
 }
 
 
-char *CheckEXEInDir(char *token, char *exe, char *buff)
+char *CheckEXEInDir(char *path, char *exe, char *buff)
 {
     int result;
     struct dirent *entry;
-    DIR *dir = opendir(token);
+    char passedDirectory[SIZE];
+    char sentDirectory[SIZE];
+    DIR *dir = opendir(path);
+    char *returnedPath;
+    _strncpy(passedDirectory, path, SIZE);
+    _strncpy(sentDirectory, path, SIZE);
 
-    result = access(exe, F_OK);
+    _strncat(passedDirectory , "/", SIZE);
+    _strncat(sentDirectory , "/", SIZE);
+
+    _strncat(path , "/", SIZE);
+    _strncat(path , exe, SIZE);
+
+    result = access(path, F_OK);
     if (result == -1)
         while ((entry = readdir(dir)) != NULL)
         {
-            if (entry->d_type == 4 && !_strcmp(entry->d_name, ".") && !_strcmp(entry->d_name, ".."))
-                CheckEXEInDir(entry->d_name, exe, buff);
+            if (entry->d_type == DT_DIR && _strcmp(entry->d_name, ".") != 0 && _strcmp(entry->d_name, "..") != 0 && _strcmp(entry->d_name, ".git") != 0)
+            {
+                _strncat(sentDirectory ,entry->d_name, SIZE);
+                returnedPath = CheckEXEInDir(sentDirectory, exe, buff);
+                if (returnedPath != NULL)
+                {
+                    return (returnedPath);
+                }
+                _strncpy(sentDirectory, passedDirectory, SIZE);
+            }
         }
     else
     {
-        return (getcwd(buff, SIZE));
+        return (path);
     }
     return (NULL);
 }
 
-char *readPath(char *path, char *delim)
+char *readPath(char *pathDir, char *delim, char *exe)
 {
     char *tokens;
-    char buff[SIZE] = {0};
+    char path[SIZE] = {0};
+    char currentDir[SIZE] = {0};
 
-    tokens = strtok(path, delim);
+    tokens = strtok(pathDir, delim);
+
+    getcwd(currentDir, SIZE);
+    _strncat(path, currentDir , SIZE);
+    if (CheckEXEInDir(path, exe, path) != NULL)
+    {
+        printf("%s ***********", path);
+        _strncpy(pathDir, path, SIZE);
+        return (pathDir);
+    }
+    path[0] = 0;
     // k = 0;
     // while (tokens[k] != '\0')
     // {
@@ -51,13 +85,15 @@ char *readPath(char *path, char *delim)
     while (tokens != NULL) {
         // printf(" %s\n", tokens);
         tokens = strtok(NULL, delim);
-        if (CheckEXEInDir("testDir", "hllo", buff) != NULL)
+        _strncat(path, tokens, SIZE);
+        if (CheckEXEInDir(path, exe, path) != NULL)
         {
-            printf("%s ***********", buff);
-            break;
+            printf("%s ***********", path);
+            _strncpy(pathDir, path, SIZE);
+            return (pathDir);
         }
+        path[0] = 0;
     }
-
 }
 
 
@@ -70,9 +106,9 @@ int main(int arc, char **argv, char ** envir)
 {
     int i, j, k;
     char *comparator = "PATH";
-    
     char *path, *delim = ":", *brokenString;
 
+    int parentID = getpid();
     for (i = 0; envir[i] != NULL; i++)
     {
         if (envir[i][0] == 'P')
@@ -84,13 +120,15 @@ int main(int arc, char **argv, char ** envir)
             }
             if (comparator[j] == '\0')
             {
-                // printf("%s\n--------------------------\n", envir[i]);
                 path = *(envir + i) + j + 1;
                 break;
             }
         }
     }
     // printf("%s\n--------------------------\n", path);
-    readPath(path, delim);
-
+    path = readPath(path, delim, "ls");
+    fork();
+    if (getpid() != parentID)
+        if (execve(path, argv, envir) == -1)
+            perror("Could not execve");
 }
