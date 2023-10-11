@@ -9,7 +9,7 @@
  */
 int main(int argc, char *argv[], char *envp[])
 {
-	const char *errorMsg = "there is no such file of directory\n";
+	char *errorMsg = "there is no such file of directory\n";
 	char *inputStr = NULL;
 	char *inputStrFullName = NULL;
 	size_t numOfLettGetline = 0;
@@ -23,29 +23,32 @@ int main(int argc, char *argv[], char *envp[])
 	else
 	{
 		binPathes = pathSlice(envp);
+
 		while (1)
 		{
-			write(stdout, "$ ", 2);
+
+			write(STDOUT_FILENO, "$ ", 2);
 			getline(&inputStr, &numOfLettGetline, stdin);
 			fflush(stdin);
 			if (_strcmp(inputStr, "exit") == 0)
 				_exit(EXIT_SUCCESS);
+
 			for (i = 0; binPathes[i]; ++i)
 			{
 				inputStrFullName = _strcatheap(binPathes[i], inputStr);
 				if (access(inputStrFullName, X_OK) == 0)
 				{
-					forkEce(inputStrFullName, argv, envp);
+					forkExe(inputStrFullName, argv, envp);
 				}
 				else
 				{
-					write(stdout, errorMsg, _strlen(errorMsg));
+					write(STDOUT_FILENO, errorMsg, _strlen(errorMsg));
 					exit(EXIT_FAILURE);
 				}
 			}
 			free(inputStrFullName);
 			free(inputStr);
 		}
-		free2dArr(binPathes); /*write func to free the 2d array of strings of path*/
+		/* free2dArr(binPathes);*/ /*write func to free the 2d array of strings of path*/
 	}
 }

@@ -86,6 +86,7 @@ char **pathSlice(char **env)
 			str = &env[i][5];
 			break;
 		}
+		++i;
 	}
 	return (slicing(str, ':'));
 }
