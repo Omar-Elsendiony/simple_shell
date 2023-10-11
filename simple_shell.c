@@ -54,8 +54,11 @@ int main(int argc, char *argv[], char *envp[])
 			{
 				write(STDOUT_FILENO, errorMsg, _strlen(errorMsg));
 			}
+
 			free(inputStrFullName);
+			printf("this is here\n");
 		}
+		printf("this is outttttttttt\n");
 		free(inputStr);
 		free2dArr(binPathes);
 	}
