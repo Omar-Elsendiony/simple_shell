@@ -26,29 +26,37 @@ int main(int argc, char *argv[], char *envp[])
 
 		while (1)
 		{
-			printf("%s\n", binPathes[i]);
 			write(STDOUT_FILENO, "$ ", 2);
 			getline(&inputStr, &numOfLettGetline, stdin);
 			fflush(stdin);
 			if (_strcmp(inputStr, "exit") == 0)
 				_exit(EXIT_SUCCESS);
-
-			for (i = 0; binPathes[i]; ++i)
+			i = 0;
+			while (binPathes[i])
 			{
+
 				inputStrFullName = _strcatheap(binPathes[i], inputStr);
-				if (access(inputStrFullName, X_OK) == 0)
+				if (access(inputStrFullName, F_OK) == 0)
 				{
-					forkExe(inputStrFullName, argv, envp);
+					break;
 				}
 				else
 				{
-					write(STDOUT_FILENO, errorMsg, _strlen(errorMsg));
-					exit(EXIT_FAILURE);
+					free(inputStrFullName);
+					++i;
 				}
 			}
+			if (binPathes[i] != NULL)
+			{
+				forkExe(inputStrFullName, argv, envp);
+			}
+			else
+			{
+				write(STDOUT_FILENO, errorMsg, _strlen(errorMsg));
+			}
 			free(inputStrFullName);
-			free(inputStr);
 		}
-		/* free2dArr(binPathes);*/ /*write func to free the 2d array of strings of path*/
+		free(inputStr);
+		free2dArr(binPathes);
 	}
 }

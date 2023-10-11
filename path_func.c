@@ -54,14 +54,14 @@ char **slicing(char *str, char del)
 	int numOfWord = 0;
 	char **arr = NULL;
 
-	word_count(str, del);
+	numOfWord = word_count(str, del);
 	arr = malloc(sizeof(char *) * numOfWord + 1);
 	arr[numOfWord] = NULL;
 	while (i < numOfWord)
 	{
-		numOfLett = lett_count(&str[j], ' ');
-		arr[i] = malloc(numOfLett + 1);
-		_strncpy(arr[i], &str[j], numOfLett + 1);
+		numOfLett = lett_count(&str[j], ':');
+		arr[i] = malloc(numOfLett + 2);
+		_strncpy(arr[i], &str[j], numOfLett + 2);
 		j = j + numOfLett + 1;
 		++i;
 	}
@@ -84,7 +84,7 @@ char **pathSlice(char **env)
 	{
 		if (_strncmp(env[i], "PATH=", 5) == 0)
 		{
-			str = &env[i][6];
+			str = &env[i][5];
 			break;
 		}
 		++i;
@@ -93,16 +93,14 @@ char **pathSlice(char **env)
 	return (pathes);
 }
 
-int main(int argc, char *argv[], char *envp[])
+void free2dArr(char **arr)
 {
 	int i = 0;
-	char **pa = NULL;
 
-	pa = pathSlice(envp);
-	while (pa[i])
+	while (arr[i])
 	{
-		printf("%s\n", pa[i]);
+		free(arr[i]);
 		++i;
 	}
-	return 0;
+	free(arr);
 }

@@ -57,18 +57,13 @@ char *_strncpy(char *dest, char *src, int n)
 {
 	int i;
 
-	for (i = 0; i < n; ++i)
+	for (i = 0; i < n - 2; ++i)
 	{
 		dest[i] = src[i];
-		if (src[i] == '\0')
-		{
-			while (i < n)
-			{
-				dest[i] = 0;
-				++i;
-			}
-		}
 	}
+	dest[i] = '/';
+	++i;
+	dest[i] = '\0';
 	return (dest);
 }
 
@@ -102,13 +97,13 @@ char *_strcatheap(char *dest, char *src)
 	int i = 0;
 	char *conCatStr = NULL;
 
-	conCatStr = malloc(_strlen(dest) + _strlen(src) + 1);
+	conCatStr = malloc(_strlen(dest) + _strlen(src));
 	while (dest[i])
 	{
 		conCatStr[i] = dest[i];
 		++i;
 	}
-	while (*src)
+	while (*src && *src != '\n')
 	{
 		conCatStr[i] = *src;
 		++src;
