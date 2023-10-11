@@ -58,7 +58,7 @@ char *CheckEXEInDir(char *path, char *exe, char *buff, int counter)
     if (result == -1)
         while ((entry = readdir(dir)) != NULL)
         {
-            if (entry->d_type == DT_DIR && _strcmp(entry->d_name, ".") != 0 && _strcmp(entry->d_name, "..") != 0 && _strcmp(entry->d_name, ".git") != 0)
+            if (entry->d_type == DT_DIR && _strcmp(entry->d_name, ".") != 0 && _strcmp(entry->d_name, "..") != 0)
             {
                 _strncat(sentDirectory ,entry->d_name, SIZE);
                 returnedPath = CheckEXEInDir(sentDirectory, exe, buff, counter - 1);
@@ -88,7 +88,6 @@ char *readPath(char *pathDir, char *delim, char *exe)
     _strncat(path, currentDir , SIZE);
     if (CheckEXEInDir(path, exe, path, 3) != NULL)
     {
-        printf("%s ***********", path);
         _strncpy(pathDir, path, SIZE);
         return (pathDir);
     }
@@ -100,7 +99,6 @@ char *readPath(char *pathDir, char *delim, char *exe)
         _strncat(path, tokens, SIZE);
         if (CheckEXEInDir(path, exe, path, 3) != NULL)
         {
-            printf("%s ***********", path);
             _strncpy(pathDir, path, SIZE);
             return (pathDir);
         }
@@ -119,9 +117,9 @@ int main(int arc, char **argv, char ** envir)
     int i, j, k, childID;
     char *comparator = "PATH";
     char *path, *delim = ":", *brokenString;
-    
+    char *exe = "ls";
 
-    if (execve("/bin/l", argv, envir) == -1)
+    if (execve(exe, argv, envir) == -1)
     {
         int parentID = getpid();
         /*
@@ -144,7 +142,7 @@ int main(int arc, char **argv, char ** envir)
             }
         }
 
-        path = readPath(path, delim, "s");
+        path = readPath(path, delim, exe);
         if (path == NULL)
             perror("could not find path");
         else
