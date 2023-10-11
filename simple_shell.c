@@ -2,6 +2,7 @@
 
 int main(int argc, char *argv[], char *envp[])
 {
+	const char *errorMsg = "there is no such file of directory\n";
 	char *inputStr = NULL;
 	char *inputStrFullName = NULL;
 	size_t numOfLettGetline = 0;
@@ -24,19 +25,19 @@ int main(int argc, char *argv[], char *envp[])
 				_exit(EXIT_SUCCESS);
 			for (binPathes[i])
 			{
-				inputStrFullName = _strcatheap(binPathes[i], inputStr); /*write the function theat concat 2 strings PS it will return heap mem*/
-				if (file_accessable(inputStrFullName))					/*write a function to check the accessablility in every dir and the exictenc of file*/
+				inputStrFullName = _strcatheap(binPathes[i], inputStr);
+				if (access(inputStrFullName, X_OK) == 0)
 				{
 					forkEce(char *pinter, argv, argc, envp); /*write a function to fork and execute the programme*/
 				}
 				else
 				{
-					write(stdout, "error\n", _strlen("error\n")); /*the exact error msg will be written later*/
+					write(stdout, errorMsg, _strlen(errorMsg));
 					exit(EXIT_FAILURE);
 				}
-				free(inputStrFullName);
-				free(inputStr);
 			}
+			free(inputStrFullName);
+			free(inputStr);
 		}
 		free2dArr(binPathes); /*write func to free the 2d array of strings of path*/
 	}

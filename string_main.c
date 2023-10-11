@@ -71,18 +71,23 @@ int _strlen(char *s)
  * Return: pointer to char (dest)
  */
 
-char *_strcat(char *dest, char *src)
+char *_strcatheap(char *dest, char *src)
 {
 	int i = 0;
+	char *conCatStr = NULL;
 
+	conCatStr = malloc(_strlen(dest) + _strlen(src) + 1);
 	while (dest[i])
+	{
+		conCatStr[i] = dest[i];
 		++i;
+	}
 	while (*src)
 	{
-		dest[i] = *src;
+		conCatStr[i] = *src;
 		++src;
 		++i;
 	}
-	dest[i] = '\0';
-	return (dest);
+	conCatStr[i] = '\0';
+	return (conCatStr);
 }
