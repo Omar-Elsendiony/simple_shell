@@ -3,9 +3,21 @@
 #include <dirent.h>
 #include <string.h>
 #include "utility.h"
-#define SIZE 100
+#define SIZE 1000
 
+int _strcmpUnnecessary(char *s1, char *s2, int count)
+{
+	int i, diff;
 
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && count != 0)
+    {
+		i++;
+        count--;
+    }
+	diff = s1[i] - s2[i];
+	return (diff);
+}
 
 
 
@@ -21,13 +33,17 @@ int _strcmp(char *s1, char *s2)
 }
 
 
-char *CheckEXEInDir(char *path, char *exe, char *buff)
+char *CheckEXEInDir(char *path, char *exe, char *buff, int counter)
 {
+    if (counter == 0)
+        return NULL;
     int result;
     struct dirent *entry;
     char passedDirectory[SIZE];
     char sentDirectory[SIZE];
     DIR *dir = opendir(path);
+    if (dir == NULL)
+        return (NULL);
     char *returnedPath;
     _strncpy(passedDirectory, path, SIZE);
     _strncpy(sentDirectory, path, SIZE);
@@ -45,7 +61,7 @@ char *CheckEXEInDir(char *path, char *exe, char *buff)
             if (entry->d_type == DT_DIR && _strcmp(entry->d_name, ".") != 0 && _strcmp(entry->d_name, "..") != 0 && _strcmp(entry->d_name, ".git") != 0)
             {
                 _strncat(sentDirectory ,entry->d_name, SIZE);
-                returnedPath = CheckEXEInDir(sentDirectory, exe, buff);
+                returnedPath = CheckEXEInDir(sentDirectory, exe, buff, counter - 1);
                 if (returnedPath != NULL)
                 {
                     return (returnedPath);
@@ -70,23 +86,19 @@ char *readPath(char *pathDir, char *delim, char *exe)
 
     getcwd(currentDir, SIZE);
     _strncat(path, currentDir , SIZE);
-    if (CheckEXEInDir(path, exe, path) != NULL)
+    if (CheckEXEInDir(path, exe, path, 3) != NULL)
     {
         printf("%s ***********", path);
         _strncpy(pathDir, path, SIZE);
         return (pathDir);
     }
     path[0] = 0;
-    // k = 0;
-    // while (tokens[k] != '\0')
-    // {
-    //     printf("%s\n--------------------------\n", tokens[k++]);
-    // }
     while (tokens != NULL) {
-        // printf(" %s\n", tokens);
         tokens = strtok(NULL, delim);
+        if (tokens == NULL || !_strcmpUnnecessary(tokens, "/mnt/", 3))
+            continue;
         _strncat(path, tokens, SIZE);
-        if (CheckEXEInDir(path, exe, path) != NULL)
+        if (CheckEXEInDir(path, exe, path, 3) != NULL)
         {
             printf("%s ***********", path);
             _strncpy(pathDir, path, SIZE);
@@ -111,6 +123,9 @@ int main(int arc, char **argv, char ** envir)
     if (execve("/bin/l", argv, envir) == -1)
     {
         int parentID = getpid();
+        /*
+         * get environment path variable to parse it
+        */
         for (i = 0; envir[i] != NULL; i++)
         {
             if (envir[i][0] == 'P')
@@ -128,11 +143,16 @@ int main(int arc, char **argv, char ** envir)
             }
         }
 
-        path = readPath(path, delim, "ls");
-        fork();
-        if (getpid() != parentID)
-            if (execve(path, argv, envir) == -1)
-                perror("Could not execve");
+        path = readPath(path, delim, "s");
+        if (path == NULL)
+            perror("could not find path");
+        else
+        {
+            fork();
+            if (getpid() != parentID)
+                if (execve(path, argv, envir) == -1)
+                    perror("Could not execve");
+        }
     }
 
 
