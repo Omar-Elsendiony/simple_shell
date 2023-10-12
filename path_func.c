@@ -59,9 +59,17 @@ char **slicing(char *str, char del)
 	arr[numOfWord] = NULL;
 	while (i < numOfWord)
 	{
-		numOfLett = lett_count(&str[j], ':');
+		numOfLett = lett_count(&str[j], del);
 		arr[i] = malloc(numOfLett + 2);
-		_strncpy(arr[i], &str[j], numOfLett + 2);
+		if (del == ' ')
+		{
+			strncpy(arr[i], &str[j], numOfLett);
+			arr[numOfLett + 1] = '\0';
+		}
+		else
+		{
+			_strncpy(arr[i], &str[j], numOfLett + 2);
+		}
 		j = j + numOfLett + 1;
 		++i;
 	}

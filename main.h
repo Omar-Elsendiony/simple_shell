@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <string.h>
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 int _strncmp(char *s1, char *s2, int n);
@@ -17,4 +18,5 @@ char **slicing(char *str, char del);
 char **pathSlice(char **env);
 void forkExe(char *inputCmd, char *argv[], char *env[]);
 void free2dArr(char **arr);
+
 #endif /*SIMPLE_SHELL_H_*/

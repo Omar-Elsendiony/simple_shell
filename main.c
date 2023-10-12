@@ -14,6 +14,7 @@ int main(int argc, char *argv[], char *envp[])
 	char *inputStrFullName = NULL;
 	size_t numOfLettGetline = 0;
 	char **binPathes = NULL;
+	char **arglist = NULL;
 	int i = 0; /*iterator alaways i will be used as iterator*/
 
 	binPathes = pathSlice(envp);
@@ -26,10 +27,16 @@ int main(int argc, char *argv[], char *envp[])
 		write(STDOUT_FILENO, "$ ", 2);
 		getline(&inputStr, &numOfLettGetline, stdin);
 		fflush(stdin);
-		if (_strcmp(inputStr, "exit") == 0)
+		if (_strcmp(inputStr, "exit\n") == 0)
 			_exit(EXIT_SUCCESS);
-		if (inputStr[0] == '/')
+		if (inputStr[0] == '/' || inputStr[0] == '.')
 		{
+			i = 0;
+			while (inputStr[i])
+			{
+				++i;
+			}
+			inputStr[i - 1] = '\0';
 			if (access(inputStr, F_OK) == 0)
 			{
 				forkExe(inputStr, argv, envp);
@@ -42,11 +49,12 @@ int main(int argc, char *argv[], char *envp[])
 		}
 		else
 		{
+			arglist = slicing(inputStr, ' ');
 			i = 0;
 			while (binPathes[i])
 			{
-
-				inputStrFullName = _strcatheap(binPathes[i], inputStr);
+				printf("%s*************\n", arglist[0]);
+				inputStrFullName = _strcatheap(binPathes[i], arglist[0]);
 				if (access(inputStrFullName, F_OK) == 0)
 				{
 					break;
@@ -59,15 +67,12 @@ int main(int argc, char *argv[], char *envp[])
 			}
 			if (binPathes[i] != NULL)
 			{
-				forkExe(inputStrFullName, argv, envp);
+				forkExe(inputStrFullName, &arglist[1], envp);
 			}
 			else
 			{
 				write(STDOUT_FILENO, errorMsg, _strlen(errorMsg));
 			}
-
-			free(inputStrFullName);
-			printf("this is here\n");
 		}
 	}
 	printf("this is outttttttttt\n");
