@@ -18,5 +18,5 @@ char **slicing(char *str, char del);
 char **pathSlice(char **env);
 void forkExe(char *inputCmd, char *argv[], char *env[]);
 void free2dArr(char **arr);
-
+void replaceNewLine(char *str);
 #endif /*SIMPLE_SHELL_H_*/

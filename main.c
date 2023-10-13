@@ -27,19 +27,22 @@ int main(int argc, char *argv[], char *envp[])
 		write(STDOUT_FILENO, "$ ", 2);
 		getline(&inputStr, &numOfLettGetline, stdin);
 		fflush(stdin);
-		if (_strcmp(inputStr, "exit\n") == 0)
-			_exit(EXIT_SUCCESS);
-		if (inputStr[0] == '/' || inputStr[0] == '.')
+		replaceNewLine(inputStr);
+		arglist = slicing(inputStr, ' ');
+
+		if (_strcmp(arglist[0], "exit") == 0)
 		{
-			i = 0;
-			while (inputStr[i])
+			free(inputStr);
+			free2dArr(binPathes);
+			free2dArr(arglist);
+			_exit(EXIT_SUCCESS);
+		}
+
+		if (arglist[0][0] == '/' || arglist[0][0] == '.')
+		{
+			if (access(arglist[0], F_OK) == 0)
 			{
-				++i;
-			}
-			inputStr[i - 1] = '\0';
-			if (access(inputStr, F_OK) == 0)
-			{
-				forkExe(inputStr, argv, envp);
+				forkExe(arglist[0], arglist, envp);
 			}
 			else
 			{
@@ -49,11 +52,9 @@ int main(int argc, char *argv[], char *envp[])
 		}
 		else
 		{
-			arglist = slicing(inputStr, ' ');
 			i = 0;
 			while (binPathes[i])
 			{
-				printf("%s*************\n", arglist[0]);
 				inputStrFullName = _strcatheap(binPathes[i], arglist[0]);
 				if (access(inputStrFullName, F_OK) == 0)
 				{
@@ -67,15 +68,13 @@ int main(int argc, char *argv[], char *envp[])
 			}
 			if (binPathes[i] != NULL)
 			{
-				forkExe(inputStrFullName, &arglist[1], envp);
+				forkExe(inputStrFullName, arglist, envp);
 			}
 			else
 			{
 				write(STDOUT_FILENO, errorMsg, _strlen(errorMsg));
+				free2dArr(arglist);
 			}
 		}
 	}
-	printf("this is outttttttttt\n");
-	free(inputStr);
-	free2dArr(binPathes);
 }

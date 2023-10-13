@@ -12,8 +12,6 @@ void forkExe(char *inputCmd, char *argv[], char *envp[])
 	int id = 0;
 	int STATE_LOCK;
 
-	printf("%s\n", argv[0]);
-	printf("%s\n", argv[1]);
 	id = fork();
 	if (id < 0)
 	{
@@ -28,5 +26,6 @@ void forkExe(char *inputCmd, char *argv[], char *envp[])
 	{
 		wait(&STATE_LOCK);
 		free(inputCmd);
+		free2dArr(argv);
 	}
 }

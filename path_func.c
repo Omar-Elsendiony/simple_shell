@@ -32,7 +32,20 @@ int word_count(char *str, char del)
 	while (str[i])
 	{
 		if (str[i] == del)
+		{
 			++countOfWords;
+			while (str[i] == del)
+			{
+				if (str[i + 1] == del)
+				{
+					++i;
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
 		++i;
 	}
 	++countOfWords;
@@ -55,25 +68,52 @@ char **slicing(char *str, char del)
 	char **arr = NULL;
 
 	numOfWord = word_count(str, del);
-	arr = malloc(sizeof(char *) * numOfWord + 1);
+	arr = malloc(sizeof(char *) * (numOfWord + 1));
 	arr[numOfWord] = NULL;
 	while (i < numOfWord)
 	{
 		numOfLett = lett_count(&str[j], del);
-		arr[i] = malloc(numOfLett + 2);
-		if (del == ' ')
+		if (del == ':')
 		{
-			strncpy(arr[i], &str[j], numOfLett);
-			arr[numOfLett + 1] = '\0';
+			arr[i] = malloc(numOfLett + 2);
+			_strncpy(arr[i], &str[j], numOfLett);
+			arr[i][numOfLett] = '/';
+			arr[i][numOfLett + 1] = '\0';
+			j = j + numOfLett + 1;
+			while (str[j] == del)
+			{
+				if (str[j + 1] == del)
+				{
+					++j;
+				}
+				else
+				{
+					++j;
+					break;
+				}
+			}
 		}
 		else
 		{
-			_strncpy(arr[i], &str[j], numOfLett + 2);
+			arr[i] = malloc(numOfLett + 1);
+			_strncpy(arr[i], &str[j], numOfLett);
+			arr[i][numOfLett] = '\0';
+			j = j + numOfLett + 1;
+			while (str[j] == del)
+			{
+				if (str[j + 1] == del)
+				{
+					++j;
+				}
+				else
+				{
+					++j;
+					break;
+				}
+			}
 		}
-		j = j + numOfLett + 1;
 		++i;
 	}
-
 	return (arr);
 }
 
@@ -112,3 +152,18 @@ void free2dArr(char **arr)
 	}
 	free(arr);
 }
+/*
+int main(int argc, char *argv[], char *env[])
+{
+	char *res = "hello  world\n";
+	char **sl = slicing(res, ' ');
+	int i = 0;
+
+	while (sl[i])
+	{
+		printf("%s\n", sl[i]);
+		++i;
+	}
+	return (0);
+}
+*/
