@@ -47,6 +47,7 @@ int main(int argc, char *argv[], char *envp[])
 			else
 			{
 				write(STDOUT_FILENO, errorMsg, _strlen(errorMsg));
+				free2dArr(arglist);
 				continue;
 			}
 		}

@@ -19,13 +19,12 @@ void forkExe(char *inputCmd, char *argv[], char *envp[])
 	}
 	else if (id == 0)
 	{
-
 		execve(inputCmd, argv, envp);
 	}
 	else
 	{
 		wait(&STATE_LOCK);
-		if (inputCmd[0] == '/' || inputCmd[0] == '.')
+		if (_strcmp(inputCmd, argv[0]) == 0)
 		{
 			free2dArr(argv);
 			return;
