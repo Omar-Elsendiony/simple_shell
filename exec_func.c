@@ -25,6 +25,11 @@ void forkExe(char *inputCmd, char *argv[], char *envp[])
 	else
 	{
 		wait(&STATE_LOCK);
+		if (inputCmd[0] == '/' || inputCmd[0] == '.')
+		{
+			free2dArr(argv);
+			return;
+		}
 		free(inputCmd);
 		free2dArr(argv);
 	}
