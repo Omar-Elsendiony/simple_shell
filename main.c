@@ -9,7 +9,7 @@
  */
 int main(int argc, char *argv[], char *envp[])
 {
-	char *errorMsg = "there is no such file of directory\n";
+	char *errorMsg = "No such file or directory\n";
 	char *inputStr = NULL;
 	char *cmd = NULL;
 	size_t numOfLettGetline = 0;
