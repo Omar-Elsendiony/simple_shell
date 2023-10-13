@@ -11,7 +11,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	char *errorMsg = "there is no such file of directory\n";
 	char *inputStr = NULL;
-	char *inputStrFullName = NULL;
+	char *cmd = NULL;
 	size_t numOfLettGetline = 0;
 	char **binPathes = NULL;
 	char **arglist = NULL;
@@ -55,20 +55,20 @@ int main(int argc, char *argv[], char *envp[])
 			i = 0;
 			while (binPathes[i])
 			{
-				inputStrFullName = _strcatheap(binPathes[i], arglist[0]);
-				if (access(inputStrFullName, F_OK) == 0)
+				cmd = _strcatheap(binPathes[i], arglist[0]);
+				if (access(cmd, F_OK) == 0)
 				{
 					break;
 				}
 				else
 				{
-					free(inputStrFullName);
+					free(cmd);
 					++i;
 				}
 			}
 			if (binPathes[i] != NULL)
 			{
-				forkExe(inputStrFullName, arglist, envp);
+				forkExe(cmd, arglist, envp);
 			}
 			else
 			{
