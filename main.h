@@ -17,6 +17,7 @@ int word_count(char *wo, char del);
 char **slicing(char *str, char del);
 char **pathSlice(char **env);
 void forkExe(char *inputCmd, char *argv[], char *env[]);
+void forkExe2(char *inputCmd, char *argv[], char *envp[]);
 void free2dArr(char **arr);
 void replaceNewLine(char *str);
 #endif /*SIMPLE_SHELL_H_*/

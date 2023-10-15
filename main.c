@@ -9,18 +9,72 @@
  */
 int main(int argc, char *argv[], char *envp[])
 {
-	char *errorMsg = "No such file or directory\n";
+	char *errorMsgNoFile = ": No such file or directory\n";
+	char *errorMsgNoCmd = ": command not found\n";
 	char *inputStr = NULL;
 	char *cmd = NULL;
 	size_t numOfLettGetline = 0;
 	char **binPathes = NULL;
 	char **arglist = NULL;
+	char *err = NULL;
+	char *finalErr = NULL;
 	int i = 0; /*iterator alaways i will be used as iterator*/
 
 	binPathes = pathSlice(envp);
 	if (argc > 1)
 	{
-		/* run in non interactive mode */
+		if (argv[1][0] == '/' || argv[1][0] == '.')
+		{
+			if (access(argv[1], F_OK) == 0)
+			{
+				forkExe2(argv[1], &argv[1], envp);
+				free2dArr(binPathes);
+				exit(EXIT_SUCCESS);
+			}
+			else
+			{
+				err = _strcatheap("bash: ", argv[1]);
+				finalErr = _strcatheap(err, errorMsgNoFile);
+				free(err);
+				write(STDOUT_FILENO, finalErr, _strlen(finalErr));
+				free(finalErr);
+				free2dArr(binPathes);
+				exit(EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			i = 0;
+			while (binPathes[i])
+			{
+				cmd = _strcatheap(binPathes[i], argv[1]);
+				if (access(cmd, F_OK) == 0)
+				{
+					break;
+				}
+				else
+				{
+					free(cmd);
+					++i;
+				}
+			}
+			if (binPathes[i] != NULL)
+			{
+				forkExe2(cmd, &argv[1], envp);
+				free2dArr(binPathes);
+				exit(EXIT_SUCCESS);
+			}
+			else
+			{
+				err = _strcatheap("bash: ", argv[1]);
+				finalErr = _strcatheap(err, errorMsgNoCmd);
+				free(err);
+				write(STDOUT_FILENO, finalErr, _strlen(finalErr));
+				free(finalErr);
+				free2dArr(binPathes);
+				exit(EXIT_FAILURE);
+			}
+		}
 	}
 	while (1)
 	{
@@ -46,8 +100,12 @@ int main(int argc, char *argv[], char *envp[])
 			}
 			else
 			{
-				write(STDOUT_FILENO, errorMsg, _strlen(errorMsg));
+				err = _strcatheap("bash: ", arglist[0]);
+				finalErr = _strcatheap(err, errorMsgNoFile);
+				free(err);
+				write(STDOUT_FILENO, finalErr, _strlen(finalErr));
 				free2dArr(arglist);
+				free(finalErr);
 				continue;
 			}
 		}
@@ -73,7 +131,11 @@ int main(int argc, char *argv[], char *envp[])
 			}
 			else
 			{
-				write(STDOUT_FILENO, errorMsg, _strlen(errorMsg));
+				err = _strcatheap("bash: ", arglist[0]);
+				finalErr = _strcatheap(err, errorMsgNoCmd);
+				free(err);
+				write(STDOUT_FILENO, finalErr, _strlen(finalErr));
+				free(finalErr);
 				free2dArr(arglist);
 			}
 		}

@@ -120,13 +120,17 @@ char *_strcatheap(char *dest, char *src)
 
 void replaceNewLine(char *str)
 {
-	if (*str == '\0' || str == NULL)
+	int i = 0;
+
+	while (str[i])
 	{
-		return;
+		if (str[i] == '\n' && str[i + 1])
+		{
+			str[i] = ' ';
+		}
+		else
+		{
+			str[i] = '\0';
+		}
 	}
-	while (*str != '\n')
-	{
-		++str;
-	}
-	*str = '\0';
 }
