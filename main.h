@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <signal.h>
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 int _strncmp(char *s1, char *s2, int n);
@@ -20,4 +21,10 @@ void forkExe(char *inputCmd, char *argv[], char *env[]);
 void forkExe2(char *inputCmd, char *argv[], char *envp[]);
 void free2dArr(char **arr);
 void replaceNewLine(char *str);
+
+/* omar functions */
+int _getline(char **string, size_t *n, int fd);
+void handler(int sig);
+/* end of omar functions */
+
 #endif /*SIMPLE_SHELL_H_*/

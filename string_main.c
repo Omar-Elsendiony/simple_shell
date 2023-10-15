@@ -1,26 +1,20 @@
 #include "main.h"
 /**
- * _strcmp - compare two string
- * @s1: pointer to frist string
- * @s2: pointer to second string
- * Return: 0 if match + if s1 greater, - if s2 greater
- */
-
+ * _strcmp - returns the alphabet
+ * @s1: pointer to integer
+ * @s2: pointer to second number
+ * Description: The description
+ * Return: void
+*/
 int _strcmp(char *s1, char *s2)
 {
-	int i = 0;
-	int len;
-	int f = 0;
+	int i, diff;
 
-	len = _strlen(s1) + 1;
-	while (i < len)
-	{
-		f = s1[i] - s2[i];
-		if (f != 0)
-			return (f);
-		++i;
-	}
-	return (f);
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0')
+		i++;
+	diff = s1[i] - s2[i];
+	return (diff);
 }
 
 /**
@@ -124,13 +118,10 @@ void replaceNewLine(char *str)
 
 	while (str[i])
 	{
-		if (str[i] == '\n' && str[i + 1])
-		{
-			str[i] = ' ';
-		}
-		else
+		if (str[i] == '\n' && str[i + 1] == '\0')
 		{
 			str[i] = '\0';
 		}
+        i = i + 1;
 	}
 }
