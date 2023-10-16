@@ -19,12 +19,15 @@ int main(int argc, char *argv[], char *envp[])
 	char *err = NULL;
 	char *finalErr = NULL;
 	int i = 0, characters = 0; /*iterator alaways i will be used as iterator*/
+    /* omar variables */
     pid_t myPID;
     char BUFFER[SIZE];
+    char *homePath;
 
     signal(SIGQUIT, handler);
     myPID = getpid();
 	binPathes = pathSlice(envp);
+    homePath = getHomePath(envp);
 	if (argc > 1)
 	{
 		if (argv[1][0] == '/' || argv[1][0] == '.')
@@ -104,7 +107,7 @@ int main(int argc, char *argv[], char *envp[])
 		}
         else if(_strcmp(arglist[0], "cd") == 0)
         {
-            if (changeDirectory(arglist, BUFFER) == -1)
+            if (changeDirectory(arglist, BUFFER, homePath) == -1)
                 perror(argv[0]);
             continue;
         }

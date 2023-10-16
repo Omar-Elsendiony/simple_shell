@@ -26,7 +26,8 @@ void replaceNewLine(char *str);
 /* omar functions */
 int _getline(char **string, size_t *n, int fd);
 void handler(int sig);
-int changeDirectory(char **arglist, char *buffer);
+int changeDirectory(char **arglist, char *buffer, char *homePath);
+char *getHomePath(char ** envir);
 /* end of omar functions */
 
 #endif /*SIMPLE_SHELL_H_*/
