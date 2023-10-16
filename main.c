@@ -20,6 +20,7 @@ int main(int argc, char *argv[], char *envp[])
 	char *finalErr = NULL;
 	int i = 0, characters = 0; /*iterator alaways i will be used as iterator*/
     pid_t myPID;
+    char BUFFER[SIZE];
 
     signal(SIGQUIT, handler);
     myPID = getpid();
@@ -101,6 +102,13 @@ int main(int argc, char *argv[], char *envp[])
 			free2dArr(arglist);
 			_exit(EXIT_SUCCESS);
 		}
+        else if(_strcmp(arglist[0], "cd") == 0)
+        {
+            if (changeDirectory(arglist, BUFFER) == -1)
+                perror(argv[0]);
+            continue;
+        }
+        
 
 		if (arglist[0][0] == '/' || arglist[0][0] == '.')
 		{
@@ -152,11 +160,3 @@ int main(int argc, char *argv[], char *envp[])
 	}
 }
 
-
-void handler(int sig)
-{
-    if (sig == SIGQUIT)
-    {
-        _exit(EXIT_FAILURE);
-    }
-}

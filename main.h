@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 #include <string.h>
 #include <signal.h>
+#define SIZE 4096
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 int _strncmp(char *s1, char *s2, int n);
@@ -25,6 +26,7 @@ void replaceNewLine(char *str);
 /* omar functions */
 int _getline(char **string, size_t *n, int fd);
 void handler(int sig);
+int changeDirectory(char **arglist, char *buffer);
 /* end of omar functions */
 
 #endif /*SIMPLE_SHELL_H_*/
