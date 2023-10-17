@@ -19,10 +19,11 @@ int main(int argc, char *argv[], char *envp[])
 	char *err = NULL;
 	char *finalErr = NULL;
 	int i = 0, characters = 0; /*iterator alaways i will be used as iterator*/
-    pid_t myPID;
+	pid_t myPID;
+	cmdType cmdBuiltin[] = {{"exit", exitCmd}, {"env", envCmd}, {"cd", cdCmd}, {"setenv", setenvCmd}, {"unsetenv", unsetemvCmd}, {NULL, NULL}};
 
-    signal(SIGQUIT, handler);
-    myPID = getpid();
+	signal(SIGQUIT, handler);
+	myPID = getpid();
 	binPathes = pathSlice(envp);
 	if (argc > 1)
 	{
@@ -82,18 +83,18 @@ int main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		write(STDOUT_FILENO, "$ ", 2);
-        fflush(stdin);
+		fflush(stdin);
 		characters = getline(&inputStr, &numOfLettGetline, stdin);
 		fflush(stdin);
-        if (characters == -1)
-        {
-            kill(myPID,SIGQUIT);
-        }
+		if (characters == -1)
+		{
+			kill(myPID, SIGQUIT);
+		}
 		replaceNewLine(inputStr);
 		arglist = slicing(inputStr, ' ');
 
-        if (arglist[0] == ((void *)(0)))
-            continue;
+		if (arglist[0] == ((void *)(0)))
+			continue;
 		if (_strcmp(arglist[0], "exit") == 0)
 		{
 			free(inputStr);
@@ -150,13 +151,4 @@ int main(int argc, char *argv[], char *envp[])
 			}
 		}
 	}
-}
-
-
-void handler(int sig)
-{
-    if (sig == SIGQUIT)
-    {
-        _exit(EXIT_FAILURE);
-    }
 }

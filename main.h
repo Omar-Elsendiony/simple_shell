@@ -27,4 +27,11 @@ int _getline(char **string, size_t *n, int fd);
 void handler(int sig);
 /* end of omar functions */
 
+typedef struct cmdType
+{
+	char *name;
+	int (*func)(char *argv[], char *env[]);
+} cmdType;
+
+extern char **environ;
 #endif /*SIMPLE_SHELL_H_*/
