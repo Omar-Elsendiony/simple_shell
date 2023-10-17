@@ -9,15 +9,11 @@
  */
 int main(int argc, char *argv[], char *environ[])
 {
-	char *errorMsgNoFile = ": No such file or directory\n";
-	char *errorMsgNoCmd = ": command not found\n";
 	char *inputStr = NULL;
 	char *cmd = NULL;
 	size_t numOfLettGetline = 0;
 	char **binPathes = NULL;
 	char **arglist = NULL;
-	char *err = NULL;
-	char *finalErr = NULL;
 	int flag = 0;
 	int i = 0, characters = 0; /*iterator alaways i will be used as iterator*/
 	cmdType cmdBuiltin[] = {{"exit", exitCmd},
@@ -56,11 +52,7 @@ int main(int argc, char *argv[], char *environ[])
 
 			else
 			{
-				err = _strcatheap("bash: ", argv[1]);
-				finalErr = _strcatheap(err, errorMsgNoFile);
-				free(err);
-				write(STDOUT_FILENO, finalErr, _strlen(finalErr));
-				free(finalErr);
+				perror("./hsh: ");
 				free2dArr(binPathes);
 				exit(EXIT_FAILURE);
 			}
@@ -83,18 +75,15 @@ int main(int argc, char *argv[], char *environ[])
 			}
 			if (binPathes[i] != NULL)
 			{
+
 				forkExe2(cmd, &argv[1], environ);
 				free2dArr(binPathes);
 				exit(EXIT_SUCCESS);
 			}
 			else
 			{
-				err = _strcatheap("bash: ", argv[1]);
-				finalErr = _strcatheap(err, errorMsgNoCmd);
-				free(err);
-				write(STDOUT_FILENO, finalErr, _strlen(finalErr));
-				free(finalErr);
 				free2dArr(binPathes);
+				perror("./hsh: ");
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -153,12 +142,8 @@ int main(int argc, char *argv[], char *environ[])
 			}
 			else
 			{
-				err = _strcatheap("bash: ", arglist[0]);
-				finalErr = _strcatheap(err, errorMsgNoFile);
-				free(err);
-				write(STDOUT_FILENO, finalErr, _strlen(finalErr));
+				perror("./hsh: ");
 				free2dArr(arglist);
-				free(finalErr);
 				continue;
 			}
 		}
@@ -184,11 +169,7 @@ int main(int argc, char *argv[], char *environ[])
 			}
 			else
 			{
-				err = _strcatheap("bash: ", arglist[0]);
-				finalErr = _strcatheap(err, errorMsgNoCmd);
-				free(err);
-				write(STDOUT_FILENO, finalErr, _strlen(finalErr));
-				free(finalErr);
+				perror("./hsh: ");
 				free2dArr(arglist);
 			}
 		}
