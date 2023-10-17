@@ -5,7 +5,7 @@
  * @s2: pointer to second number
  * Description: The description
  * Return: void
-*/
+ */
 int _strcmp(char *s1, char *s2)
 {
 	int i, diff;
@@ -67,6 +67,25 @@ char *_strncpy(char *dest, char *src, int n)
 }
 
 /**
+ * _strcpy - copyt a string into buffer
+ * @dest: destination buffer
+ * @src: source buffer
+ * Return: pointer to buffer
+ */
+char *_strcpy(char *dest, char *src)
+{
+	int i = 0;
+
+	while (*(src + i))
+	{
+		*(dest + i) = *(src + i);
+		++i;
+	}
+	*(dest + i) = *(src + i);
+	return (dest);
+}
+
+/**
  * _strlen - funct to find the length of str
  * @s: pointer to frist letter of the str
  * Return: number of letters (int)
@@ -122,6 +141,6 @@ void replaceNewLine(char *str)
 		{
 			str[i] = '\0';
 		}
-        i = i + 1;
+		i = i + 1;
 	}
 }

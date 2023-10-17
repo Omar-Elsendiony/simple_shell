@@ -4,10 +4,10 @@
  * main - the main entry point
  * @argc: num of argu
  * @argv: array of arg
- * @envp: the environmental var
+ * @environ: the environmental var
  * Return: 0 on success, a state on failure
  */
-int main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *environ[])
 {
 	char *errorMsgNoFile = ": No such file or directory\n";
 	char *errorMsgNoCmd = ": command not found\n";
@@ -18,27 +18,42 @@ int main(int argc, char *argv[], char *envp[])
 	char **arglist = NULL;
 	char *err = NULL;
 	char *finalErr = NULL;
+	int flag = 0;
 	int i = 0, characters = 0; /*iterator alaways i will be used as iterator*/
-							   /* omar variables */
+	cmdType cmdBuiltin[] = {{"exit", exitCmd},
+							{"env", envCmd},
+							{NULL, NULL}}; /*, {"cd1", cdCmd}, {"setenv", setenvCmd}, {"unsetenv", unsetemvCmd}, {NULL, NULL}};*/
+	/* omar variables */
 	pid_t myPID;
-	cmdType cmdBuiltin[] = {{"exit", exitCmd}, {"env", envCmd}, {"cd", cdCmd}, {"setenv", setenvCmd}, {"unsetenv", unsetemvCmd}, {NULL, NULL}};
-	char BUFFER[SIZE];
-	char *homePath;
+	/* char BUFFER[SIZE]; */
+	/* char *homePath; */
 
 	signal(SIGQUIT, handler);
 	myPID = getpid();
-	binPathes = pathSlice(envp);
-	homePath = getHomePath(envp);
+	binPathes = pathSlice(environ);
+	/*homePath = getHomePath(environ);*/
 	if (argc > 1)
 	{
+		i = 0;
+		while (cmdBuiltin[i].name)
+		{
+			if (_strcmp(argv[1], cmdBuiltin[i].name) == 0)
+			{
+				free2dArr(binPathes);
+				cmdBuiltin[i].func(&argv[1], environ);
+				exit(EXIT_SUCCESS);
+			}
+			++i;
+		}
 		if (argv[1][0] == '/' || argv[1][0] == '.')
 		{
 			if (access(argv[1], F_OK) == 0)
 			{
-				forkExe2(argv[1], &argv[1], envp);
+				forkExe2(argv[1], &argv[1], environ);
 				free2dArr(binPathes);
 				exit(EXIT_SUCCESS);
 			}
+
 			else
 			{
 				err = _strcatheap("bash: ", argv[1]);
@@ -68,7 +83,7 @@ int main(int argc, char *argv[], char *envp[])
 			}
 			if (binPathes[i] != NULL)
 			{
-				forkExe2(cmd, &argv[1], envp);
+				forkExe2(cmd, &argv[1], environ);
 				free2dArr(binPathes);
 				exit(EXIT_SUCCESS);
 			}
@@ -99,25 +114,42 @@ int main(int argc, char *argv[], char *envp[])
 
 		if (arglist[0] == ((void *)(0)))
 			continue;
-		if (_strcmp(arglist[0], "exit") == 0)
+		i = 0;
+		while (cmdBuiltin[i].name)
 		{
-			free(inputStr);
-			free2dArr(binPathes);
-			free2dArr(arglist);
-			_exit(EXIT_SUCCESS);
+			flag = 0;
+			if (_strcmp(arglist[0], cmdBuiltin[i].name) == 0)
+			{
+				if (_strcmp(cmdBuiltin[i].name, "exit") == 0)
+				{
+					free(inputStr);
+					free2dArr(binPathes);
+					cmdBuiltin[i].func(arglist, environ);
+				}
+				cmdBuiltin[i].func(arglist, environ);
+				free2dArr(arglist);
+				flag = 1;
+				break;
+			}
+			++i;
 		}
+		if (flag == 1)
+		{
+			continue;
+		}
+		/*
 		else if (_strcmp(arglist[0], "cd") == 0)
 		{
 			if (changeDirectory(arglist, BUFFER, homePath) == -1)
 				perror(argv[0]);
 			continue;
 		}
-
+*/
 		if (arglist[0][0] == '/' || arglist[0][0] == '.')
 		{
 			if (access(arglist[0], F_OK) == 0)
 			{
-				forkExe(arglist[0], arglist, envp);
+				forkExe(arglist[0], arglist, environ);
 			}
 			else
 			{
@@ -148,7 +180,7 @@ int main(int argc, char *argv[], char *envp[])
 			}
 			if (binPathes[i] != NULL)
 			{
-				forkExe(cmd, arglist, envp);
+				forkExe(cmd, arglist, environ);
 			}
 			else
 			{
