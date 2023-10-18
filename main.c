@@ -19,6 +19,7 @@ int main(int argc, char *argv[], char *environ[])
 	characters = 0; /*iterator alaways i will be used as iterator*/
 	cmdType cmdBuiltin[] = {{"exit", exitCmd},
 							{"env", envCmd},
+                            {"cd", changeDirectory},
 							{NULL, NULL}}; /*, {"cd1", cdCmd}, {"setenv", setenvCmd}, {"unsetenv", unsetemvCmd}, {NULL, NULL}};*/
 	/* omar variables */
 	pid_t myPID;
