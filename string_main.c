@@ -141,6 +141,10 @@ void replaceNewLine(char *str)
 		{
 			str[i] = '\0';
 		}
+		else if (str[i] == '\n')
+		{
+			str[i] = ' ';
+		}
 		i = i + 1;
 	}
 }

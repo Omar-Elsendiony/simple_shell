@@ -15,7 +15,8 @@ int main(int argc, char *argv[], char *environ[])
 	char **binPathes = NULL;
 	char **arglist = NULL;
 	int flag = 0;
-	int i = 0, characters = 0; /*iterator alaways i will be used as iterator*/
+	int i = 0,
+		characters = 0; /*iterator alaways i will be used as iterator*/
 	cmdType cmdBuiltin[] = {{"exit", exitCmd},
 							{"env", envCmd},
 							{NULL, NULL}}; /*, {"cd1", cdCmd}, {"setenv", setenvCmd}, {"unsetenv", unsetemvCmd}, {NULL, NULL}};*/
@@ -28,6 +29,85 @@ int main(int argc, char *argv[], char *environ[])
 	myPID = getpid();
 	binPathes = pathSlice(environ);
 	/*homePath = getHomePath(environ);*/
+
+	if (isatty(STDIN_FILENO) == 0)
+	{
+		characters = getline(&inputStr, &numOfLettGetline, stdin);
+		fflush(stdin);
+		if (characters == -1)
+		{
+			kill(myPID, SIGQUIT);
+		}
+		replaceNewLine(inputStr);
+		arglist = slicing(inputStr, ' ');
+		free(inputStr);
+
+		if (arglist[0] == ((void *)(0)))
+		{
+			free2dArr(arglist);
+			free2dArr(binPathes);
+			exit(EXIT_SUCCESS);
+		}
+		i = 0;
+		while (cmdBuiltin[i].name)
+		{
+			if (_strcmp(arglist[0], cmdBuiltin[i].name) == 0)
+			{
+				free2dArr(binPathes);
+				cmdBuiltin[i].func(arglist, environ);
+				free2dArr(arglist);
+				exit(EXIT_SUCCESS);
+			}
+			++i;
+		}
+		if (arglist[0][0] == '/' || arglist[0][0] == '.')
+		{
+			if (access(arglist[0], F_OK) == 0)
+			{
+				forkExe(arglist[0], arglist, environ);
+				free2dArr(binPathes);
+				exit(EXIT_SUCCESS);
+			}
+			else
+			{
+				perror("./hsh: ");
+				free2dArr(arglist);
+				free2dArr(binPathes);
+				exit(EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			i = 0;
+			while (binPathes[i])
+			{
+				cmd = _strcatheap(binPathes[i], arglist[0]);
+				if (access(cmd, F_OK) == 0)
+				{
+					break;
+				}
+				else
+				{
+					free(cmd);
+					++i;
+				}
+			}
+			if (binPathes[i] != NULL)
+			{
+				forkExe(cmd, arglist, environ);
+				free2dArr(binPathes);
+				exit(EXIT_SUCCESS);
+			}
+			else
+			{
+				perror("./hsh: ");
+				free2dArr(arglist);
+				free2dArr(binPathes);
+				exit(EXIT_FAILURE);
+			}
+		}
+	}
+
 	if (argc > 1)
 	{
 		i = 0;
@@ -88,6 +168,7 @@ int main(int argc, char *argv[], char *environ[])
 			}
 		}
 	}
+
 	while (1)
 	{
 		write(STDOUT_FILENO, "$ ", 2);

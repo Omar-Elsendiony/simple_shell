@@ -9,6 +9,8 @@
 #include <string.h>
 #include <signal.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #define SIZE 4096
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
