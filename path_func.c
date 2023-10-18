@@ -135,20 +135,3 @@ void free2dArr(char **arr)
 	}
 	free(arr);
 }
-/*
-int main(int argc, char *argv[], char *env[])
-{
-	printf("HI");
-	char *res = "/home/amer/.vscode-server/bin/e7e037083ff4455cf320e344325dacb480062c3c/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/Microchip/xc8/v2.36/bin:/mnt/c/msys64/mingw64/bin:/mnt/c/HashiCorp/Vagrant/bin:/mnt/c/Program Files/PowerShell/7/:/mnt/c/Users/loard/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/loard/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/loard/AppData/Local/GitHubDesktop/bin:/snap/bin";
-	char **sl = slicing(res, ':');
-	int i = 0;
-
-	while (sl[i])
-	{
-		printf("%s\n", sl[i]);
-		++i;
-	}
-	printf("number of pathes %d\n", i);
-	return (0);
-}
-*/
