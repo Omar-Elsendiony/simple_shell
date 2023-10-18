@@ -36,7 +36,7 @@ int cdCmd(char *argv[], char *env[]);
 /* omar functions */
 int _getline(char **string, size_t *n, int fd);
 void handler(int sig);
-int changeDirectory(char **arglist, char *buffer, char *homePath);
+int changeDirectory(char **arglist, char **env);
 char *getHomePath(char **envir);
 /* end of omar functions */
 
