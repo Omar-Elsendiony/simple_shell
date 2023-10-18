@@ -16,7 +16,7 @@ int main(int argc, char *argv[], char *environ[])
 	char **arglist = NULL;
 	int flag = 0;
 	int i = 0,
-		characters = 0; /*iterator alaways i will be used as iterator*/
+	characters = 0; /*iterator alaways i will be used as iterator*/
 	cmdType cmdBuiltin[] = {{"exit", exitCmd},
 							{"env", envCmd},
 							{NULL, NULL}}; /*, {"cd1", cdCmd}, {"setenv", setenvCmd}, {"unsetenv", unsetemvCmd}, {NULL, NULL}};*/
@@ -219,14 +219,13 @@ int main(int argc, char *argv[], char *environ[])
 		{
 			continue;
 		}
-		/*
+		
 		else if (_strcmp(arglist[0], "cd") == 0)
 		{
-			if (changeDirectory(arglist, BUFFER, homePath) == -1)
+			if (changeDirectory(arglist, environ) == -1)
 				perror(argv[0]);
 			continue;
 		}
-*/
 		if (arglist[0][0] == '/' || arglist[0][0] == '.')
 		{
 			if (access(arglist[0], F_OK) == 0)
