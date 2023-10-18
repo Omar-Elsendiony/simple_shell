@@ -116,6 +116,10 @@ char **pathSlice(char **env)
 		}
 		++i;
 	}
+	if (env[i] == NULL)
+	{
+		return (NULL);
+	}
 	pathes = slicing(str, ':');
 	return (pathes);
 }

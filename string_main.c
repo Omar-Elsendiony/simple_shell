@@ -115,6 +115,10 @@ char *_strcatheap(char *dest, char *src)
 	int i = 0;
 	char *conCatStr = NULL;
 
+	if (dest == NULL)
+		return (src);
+	if (src == NULL)
+		return (dest);
 	conCatStr = malloc(_strlen(dest) + _strlen(src) + 1);
 	while (dest[i])
 	{

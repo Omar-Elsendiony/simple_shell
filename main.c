@@ -45,7 +45,8 @@ int main(int argc, char *argv[], char *environ[])
 		if (arglist[0] == ((void *)(0)))
 		{
 			free2dArr(arglist);
-			free2dArr(binPathes);
+			if (binPathes != NULL)
+				free2dArr(binPathes);
 			exit(EXIT_SUCCESS);
 		}
 		i = 0;
@@ -53,7 +54,8 @@ int main(int argc, char *argv[], char *environ[])
 		{
 			if (_strcmp(arglist[0], cmdBuiltin[i].name) == 0)
 			{
-				free2dArr(binPathes);
+				if (binPathes != NULL)
+					free2dArr(binPathes);
 				cmdBuiltin[i].func(arglist, environ);
 				free2dArr(arglist);
 				exit(EXIT_SUCCESS);
@@ -65,14 +67,16 @@ int main(int argc, char *argv[], char *environ[])
 			if (access(arglist[0], F_OK) == 0)
 			{
 				forkExe(arglist[0], arglist, environ);
-				free2dArr(binPathes);
+				if (binPathes != NULL)
+					free2dArr(binPathes);
 				exit(EXIT_SUCCESS);
 			}
 			else
 			{
 				perror("./hsh: ");
 				free2dArr(arglist);
-				free2dArr(binPathes);
+				if (binPathes != NULL)
+					free2dArr(binPathes);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -95,14 +99,16 @@ int main(int argc, char *argv[], char *environ[])
 			if (binPathes[i] != NULL)
 			{
 				forkExe(cmd, arglist, environ);
-				free2dArr(binPathes);
+				if (binPathes != NULL)
+					free2dArr(binPathes);
 				exit(EXIT_SUCCESS);
 			}
 			else
 			{
 				perror("./hsh: ");
 				free2dArr(arglist);
-				free2dArr(binPathes);
+				if (binPathes != NULL)
+					free2dArr(binPathes);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -115,7 +121,8 @@ int main(int argc, char *argv[], char *environ[])
 		{
 			if (_strcmp(argv[1], cmdBuiltin[i].name) == 0)
 			{
-				free2dArr(binPathes);
+				if (binPathes != NULL)
+					free2dArr(binPathes);
 				cmdBuiltin[i].func(&argv[1], environ);
 				exit(EXIT_SUCCESS);
 			}
@@ -126,14 +133,16 @@ int main(int argc, char *argv[], char *environ[])
 			if (access(argv[1], F_OK) == 0)
 			{
 				forkExe2(argv[1], &argv[1], environ);
-				free2dArr(binPathes);
+				if (binPathes != NULL)
+					free2dArr(binPathes);
 				exit(EXIT_SUCCESS);
 			}
 
 			else
 			{
 				perror("./hsh: ");
-				free2dArr(binPathes);
+				if (binPathes != NULL)
+					free2dArr(binPathes);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -157,12 +166,14 @@ int main(int argc, char *argv[], char *environ[])
 			{
 
 				forkExe2(cmd, &argv[1], environ);
-				free2dArr(binPathes);
+				if (binPathes != NULL)
+					free2dArr(binPathes);
 				exit(EXIT_SUCCESS);
 			}
 			else
 			{
-				free2dArr(binPathes);
+				if (binPathes != NULL)
+					free2dArr(binPathes);
 				perror("./hsh: ");
 				exit(EXIT_FAILURE);
 			}
@@ -193,7 +204,8 @@ int main(int argc, char *argv[], char *environ[])
 				if (_strcmp(cmdBuiltin[i].name, "exit") == 0)
 				{
 					free(inputStr);
-					free2dArr(binPathes);
+					if (binPathes != NULL)
+						free2dArr(binPathes);
 					cmdBuiltin[i].func(arglist, environ);
 				}
 				cmdBuiltin[i].func(arglist, environ);
