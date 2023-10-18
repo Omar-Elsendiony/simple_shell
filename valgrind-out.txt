@@ -1,142 +1,420 @@
-==4408== Memcheck, a memory error detector
-==4408== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==4408== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
-==4408== Command: ./hsh
-==4408== Parent PID: 7736
-==4408== 
---4408-- 
---4408-- Valgrind options:
---4408--    --leak-check=full
---4408--    --show-leak-kinds=all
---4408--    --track-origins=yes
---4408--    --verbose
---4408--    --log-file=valgrind-out.txt
---4408-- Contents of /proc/version:
---4408--   Linux version 4.4.0-19041-Microsoft (Microsoft@Microsoft.com) (gcc version 5.4.0 (GCC) ) #3570-Microsoft Fri Sep 29 17:00:00 PST 2023
---4408-- 
---4408-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
---4408-- Page sizes: currently 4096, max supported 4096
---4408-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
---4408-- Reading syms from /home/amer/simple_shell/hsh
---4408-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.31.so
---4408--   Considering /usr/lib/debug/.build-id/c6/90288cb132a32066848b987fe4bfeb82e54291.debug ..
---4408--   .. build-id is valid
---4408-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
---4408--    object doesn't have a symbol table
---4408--    object doesn't have a dynamic symbol table
---4408-- Scheduler: using generic scheduler lock implementation.
---4408-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
-==4408== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-4408-by-amer-on-???
-==4408== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-4408-by-amer-on-???
-==4408== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-4408-by-amer-on-???
-==4408== 
-==4408== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==4408== don't want to do, unless you know exactly what you're doing,
-==4408== or are doing some strange experiment):
-==4408==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=4408 ...command...
-==4408== 
-==4408== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==4408==   /path/to/gdb ./hsh
-==4408== and then give GDB the following command
-==4408==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=4408
-==4408== --pid is optional if only one valgrind process is running
-==4408== 
-==4408== error calling PR_SET_PTRACER, vgdb might block
---4408-- REDIR: 0x4022e20 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
---4408-- REDIR: 0x4022bf0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
---4408-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
---4408--    object doesn't have a symbol table
---4408-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
---4408--    object doesn't have a symbol table
-==4408== WARNING: new redirection conflicts with existing -- ignoring it
---4408--     old: 0x04022e20 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
---4408--     new: 0x04022e20 (strlen              ) R-> (2007.0) 0x0483f060 strlen
---4408-- REDIR: 0x401f600 (ld-linux-x86-64.so.2:strcmp) redirected to 0x483ffd0 (strcmp)
---4408-- REDIR: 0x4023380 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4843a20 (mempcpy)
---4408-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.31.so
---4408--   Considering /usr/lib/debug/.build-id/e6/78fe54a5d2c2092f8e47eb0b33105e380f7340.debug ..
---4408--   .. build-id is valid
---4408-- REDIR: 0x48f3480 (libc.so.6:memmove) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f2780 (libc.so.6:strncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f37b0 (libc.so.6:strcasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f20a0 (libc.so.6:strcat) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f27e0 (libc.so.6:rindex) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f4c50 (libc.so.6:rawmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x490fce0 (libc.so.6:wmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x490f820 (libc.so.6:wcscmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f35e0 (libc.so.6:mempcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f3410 (libc.so.6:bcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f2710 (libc.so.6:strncmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f2150 (libc.so.6:strcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f3540 (libc.so.6:memset) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x490f7e0 (libc.so.6:wcschr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f2670 (libc.so.6:strnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f2230 (libc.so.6:strcspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f3800 (libc.so.6:strncasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f21d0 (libc.so.6:strcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f3950 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x4910f50 (libc.so.6:wcsnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x490f860 (libc.so.6:wcscpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f2820 (libc.so.6:strpbrk) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f2100 (libc.so.6:index) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f2630 (libc.so.6:strlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48fbbb0 (libc.so.6:memrchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f3850 (libc.so.6:strcasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f33d0 (libc.so.6:memchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x490f930 (libc.so.6:wcslen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f2ae0 (libc.so.6:strspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f3750 (libc.so.6:stpncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f36f0 (libc.so.6:stpcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f4c90 (libc.so.6:strchrnul) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x48f38a0 (libc.so.6:strncasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---4408-- REDIR: 0x49db510 (libc.so.6:__strrchr_avx2) redirected to 0x483ea10 (rindex)
---4408-- REDIR: 0x48ed0e0 (libc.so.6:malloc) redirected to 0x483b780 (malloc)
-==4408== Invalid read of size 1
-==4408==    at 0x109853: main (in /home/amer/simple_shell/hsh)
-==4408==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
-==4408== 
-==4408== 
-==4408== Process terminating with default action of signal 11 (SIGSEGV)
-==4408==  Access not within mapped region at address 0x0
-==4408==    at 0x109853: main (in /home/amer/simple_shell/hsh)
-==4408==  If you believe this happened as a result of a stack
-==4408==  overflow in your program's main thread (unlikely but
-==4408==  possible), you can try to increase the size of the
-==4408==  main thread stack using the --main-stacksize= flag.
-==4408==  The main thread stack size used in this run was 8388608.
---4408-- REDIR: 0x48ed6d0 (libc.so.6:free) redirected to 0x483c9d0 (free)
-==4408== 
-==4408== HEAP SUMMARY:
-==4408==     in use at exit: 947 bytes in 25 blocks
-==4408==   total heap usage: 25 allocs, 0 frees, 947 bytes allocated
-==4408== 
-==4408== Searching for pointers to 25 not-freed blocks
-==4408== Checked 70,816 bytes
-==4408== 
-==4408== 200 bytes in 1 blocks are still reachable in loss record 1 of 2
-==4408==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4408==    by 0x10A20E: slicing (in /home/amer/simple_shell/hsh)
-==4408==    by 0x10A48F: pathSlice (in /home/amer/simple_shell/hsh)
-==4408==    by 0x109831: main (in /home/amer/simple_shell/hsh)
-==4408== 
-==4408== 747 bytes in 24 blocks are still reachable in loss record 2 of 2
-==4408==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4408==    by 0x10A299: slicing (in /home/amer/simple_shell/hsh)
-==4408==    by 0x10A48F: pathSlice (in /home/amer/simple_shell/hsh)
-==4408==    by 0x109831: main (in /home/amer/simple_shell/hsh)
-==4408== 
-==4408== LEAK SUMMARY:
-==4408==    definitely lost: 0 bytes in 0 blocks
-==4408==    indirectly lost: 0 bytes in 0 blocks
-==4408==      possibly lost: 0 bytes in 0 blocks
-==4408==    still reachable: 947 bytes in 25 blocks
-==4408==         suppressed: 0 bytes in 0 blocks
-==4408== 
-==4408== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
-==4408== 
-==4408== 1 errors in context 1 of 1:
-==4408== Invalid read of size 1
-==4408==    at 0x109853: main (in /home/amer/simple_shell/hsh)
-==4408==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
-==4408== 
-==4408== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+==12535== Memcheck, a memory error detector
+==12535== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==12535== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==12535== Command: ./a.out
+==12535== Parent PID: 149
+==12535== 
+--12535-- 
+--12535-- Valgrind options:
+--12535--    --leak-check=full
+--12535--    --show-leak-kinds=all
+--12535--    --track-origins=yes
+--12535--    --verbose
+--12535--    --log-file=valgrind-out.txt
+--12535-- Contents of /proc/version:
+--12535--   Linux version 4.4.0-19041-Microsoft (Microsoft@Microsoft.com) (gcc version 5.4.0 (GCC) ) #3570-Microsoft Fri Sep 29 17:00:00 PST 2023
+--12535-- 
+--12535-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
+--12535-- Page sizes: currently 4096, max supported 4096
+--12535-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
+--12535-- Reading syms from /home/amer/simple_shell/a.out
+--12535-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.31.so
+--12535--   Considering /usr/lib/debug/.build-id/c6/90288cb132a32066848b987fe4bfeb82e54291.debug ..
+--12535--   .. build-id is valid
+--12535-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
+--12535--    object doesn't have a symbol table
+--12535--    object doesn't have a dynamic symbol table
+--12535-- Scheduler: using generic scheduler lock implementation.
+--12535-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
+==12535== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-12535-by-amer-on-???
+==12535== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-12535-by-amer-on-???
+==12535== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-12535-by-amer-on-???
+==12535== 
+==12535== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==12535== don't want to do, unless you know exactly what you're doing,
+==12535== or are doing some strange experiment):
+==12535==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=12535 ...command...
+==12535== 
+==12535== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==12535==   /path/to/gdb ./a.out
+==12535== and then give GDB the following command
+==12535==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=12535
+==12535== --pid is optional if only one valgrind process is running
+==12535== 
+==12535== error calling PR_SET_PTRACER, vgdb might block
+--12535-- REDIR: 0x4022e20 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
+--12535-- REDIR: 0x4022bf0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
+--12535-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
+--12535--    object doesn't have a symbol table
+--12535-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
+--12535--    object doesn't have a symbol table
+==12535== WARNING: new redirection conflicts with existing -- ignoring it
+--12535--     old: 0x04022e20 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
+--12535--     new: 0x04022e20 (strlen              ) R-> (2007.0) 0x0483f060 strlen
+--12535-- REDIR: 0x401f600 (ld-linux-x86-64.so.2:strcmp) redirected to 0x483ffd0 (strcmp)
+--12535-- REDIR: 0x4023380 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4843a20 (mempcpy)
+--12535-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.31.so
+--12535--   Considering /usr/lib/debug/.build-id/e6/78fe54a5d2c2092f8e47eb0b33105e380f7340.debug ..
+--12535--   .. build-id is valid
+--12535-- REDIR: 0x48f3480 (libc.so.6:memmove) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f2780 (libc.so.6:strncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f37b0 (libc.so.6:strcasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f20a0 (libc.so.6:strcat) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f27e0 (libc.so.6:rindex) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f4c50 (libc.so.6:rawmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x490fce0 (libc.so.6:wmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x490f820 (libc.so.6:wcscmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f35e0 (libc.so.6:mempcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f3410 (libc.so.6:bcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f2710 (libc.so.6:strncmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f2150 (libc.so.6:strcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f3540 (libc.so.6:memset) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x490f7e0 (libc.so.6:wcschr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f2670 (libc.so.6:strnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f2230 (libc.so.6:strcspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f3800 (libc.so.6:strncasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f21d0 (libc.so.6:strcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f3950 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x4910f50 (libc.so.6:wcsnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x490f860 (libc.so.6:wcscpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f2820 (libc.so.6:strpbrk) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f2100 (libc.so.6:index) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f2630 (libc.so.6:strlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48fbbb0 (libc.so.6:memrchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f3850 (libc.so.6:strcasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f33d0 (libc.so.6:memchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x490f930 (libc.so.6:wcslen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f2ae0 (libc.so.6:strspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f3750 (libc.so.6:stpncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f36f0 (libc.so.6:stpcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f4c90 (libc.so.6:strchrnul) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x48f38a0 (libc.so.6:strncasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--12535-- REDIR: 0x49db510 (libc.so.6:__strrchr_avx2) redirected to 0x483ea10 (rindex)
+--12535-- REDIR: 0x48ed0e0 (libc.so.6:malloc) redirected to 0x483b780 (malloc)
+--12535-- REDIR: 0x49d7540 (libc.so.6:__memchr_avx2) redirected to 0x4840050 (memchr)
+--12535-- REDIR: 0x49de6f0 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x48429f0 (memmove)
+--12535-- REDIR: 0x48ed6d0 (libc.so.6:free) redirected to 0x483c9d0 (free)
+--12535-- REDIR: 0x49db320 (libc.so.6:__strchrnul_avx2) redirected to 0x4843540 (strchrnul)
+--12535-- REDIR: 0x49db6e0 (libc.so.6:__strlen_avx2) redirected to 0x483ef40 (strlen)
+==12535== Invalid read of size 1
+==12535==    at 0x483EF46: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48CBD14: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x10921A: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48040 is 0 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== Invalid read of size 1
+==12535==    at 0x483EF54: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48CBD14: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x10921A: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48041 is 1 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== Invalid read of size 1
+==12535==    at 0x48E270C: _IO_new_file_xsputn (fileops.c:1219)
+==12535==    by 0x48E270C: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==12535==    by 0x48CA0FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x10921A: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48042 is 2 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+--12535-- REDIR: 0x49de6d0 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4843660 (mempcpy)
+==12535== Invalid read of size 1
+==12535==    at 0x48436A0: mempcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48E2631: _IO_new_file_xsputn (fileops.c:1236)
+==12535==    by 0x48E2631: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==12535==    by 0x48CA0FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x10921A: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48042 is 2 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== Invalid read of size 1
+==12535==    at 0x48436B2: mempcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48E2631: _IO_new_file_xsputn (fileops.c:1236)
+==12535==    by 0x48E2631: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==12535==    by 0x48CA0FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x10921A: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48040 is 0 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== Invalid write of size 2
+==12535==    at 0x4842B33: memmove (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D65CC: getdelim (iogetdelim.c:111)
+==12535==    by 0x10923E: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48040 is 0 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== Invalid write of size 1
+==12535==    at 0x4842B63: memmove (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D65CC: getdelim (iogetdelim.c:111)
+==12535==    by 0x10923E: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48042 is 2 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== Invalid write of size 1
+==12535==    at 0x48D66F4: getdelim (iogetdelim.c:118)
+==12535==    by 0x10923E: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48043 is 3 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== Invalid read of size 1
+==12535==    at 0x483EF46: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48CBD14: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x109256: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48040 is 0 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== Invalid read of size 1
+==12535==    at 0x483EF54: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48CBD14: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x109256: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48041 is 1 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== Invalid read of size 1
+==12535==    at 0x48E270C: _IO_new_file_xsputn (fileops.c:1219)
+==12535==    by 0x48E270C: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==12535==    by 0x48CA0FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x109256: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48042 is 2 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== 
+==12535== HEAP SUMMARY:
+==12535==     in use at exit: 0 bytes in 0 blocks
+==12535==   total heap usage: 3 allocs, 3 frees, 2,168 bytes allocated
+==12535== 
+==12535== All heap blocks were freed -- no leaks are possible
+==12535== 
+==12535== ERROR SUMMARY: 20 errors from 11 contexts (suppressed: 0 from 0)
+==12535== 
+==12535== 1 errors in context 1 of 11:
+==12535== Invalid read of size 1
+==12535==    at 0x48E270C: _IO_new_file_xsputn (fileops.c:1219)
+==12535==    by 0x48E270C: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==12535==    by 0x48CA0FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x109256: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48042 is 2 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== 
+==12535== 1 errors in context 2 of 11:
+==12535== Invalid read of size 1
+==12535==    at 0x483EF46: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48CBD14: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x109256: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48040 is 0 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== 
+==12535== 1 errors in context 3 of 11:
+==12535== Invalid write of size 1
+==12535==    at 0x48D66F4: getdelim (iogetdelim.c:118)
+==12535==    by 0x10923E: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48043 is 3 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== 
+==12535== 1 errors in context 4 of 11:
+==12535== Invalid write of size 1
+==12535==    at 0x4842B63: memmove (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D65CC: getdelim (iogetdelim.c:111)
+==12535==    by 0x10923E: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48042 is 2 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== 
+==12535== 1 errors in context 5 of 11:
+==12535== Invalid read of size 1
+==12535==    at 0x48E270C: _IO_new_file_xsputn (fileops.c:1219)
+==12535==    by 0x48E270C: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==12535==    by 0x48CA0FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x10921A: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48042 is 2 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== 
+==12535== 1 errors in context 6 of 11:
+==12535== Invalid read of size 1
+==12535==    at 0x483EF46: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48CBD14: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x10921A: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48040 is 0 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== 
+==12535== 2 errors in context 7 of 11:
+==12535== Invalid read of size 1
+==12535==    at 0x48436B2: mempcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48E2631: _IO_new_file_xsputn (fileops.c:1236)
+==12535==    by 0x48E2631: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==12535==    by 0x48CA0FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x10921A: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48040 is 0 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== 
+==12535== 2 errors in context 8 of 11:
+==12535== Invalid write of size 2
+==12535==    at 0x4842B33: memmove (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D65CC: getdelim (iogetdelim.c:111)
+==12535==    by 0x10923E: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48040 is 0 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== 
+==12535== 3 errors in context 9 of 11:
+==12535== Invalid read of size 1
+==12535==    at 0x483EF54: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48CBD14: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x109256: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48041 is 1 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== 
+==12535== 3 errors in context 10 of 11:
+==12535== Invalid read of size 1
+==12535==    at 0x483EF54: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48CBD14: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x10921A: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48041 is 1 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== 
+==12535== 4 errors in context 11 of 11:
+==12535== Invalid read of size 1
+==12535==    at 0x48436A0: mempcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48E2631: _IO_new_file_xsputn (fileops.c:1236)
+==12535==    by 0x48E2631: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==12535==    by 0x48CA0FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==12535==    by 0x48B4D3E: printf (printf.c:33)
+==12535==    by 0x10921A: main (in /home/amer/simple_shell/a.out)
+==12535==  Address 0x4a48042 is 2 bytes inside a block of size 120 free'd
+==12535==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x109202: main (in /home/amer/simple_shell/a.out)
+==12535==  Block was alloc'd at
+==12535==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12535==    by 0x48D6543: getdelim (iogetdelim.c:62)
+==12535==    by 0x1091F6: main (in /home/amer/simple_shell/a.out)
+==12535== 
+==12535== ERROR SUMMARY: 20 errors from 11 contexts (suppressed: 0 from 0)
