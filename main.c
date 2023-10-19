@@ -14,9 +14,11 @@ int main(int argc, char *argv[], char *environ[])
 	size_t numOfLettGetline = 0;
 	char **binPathes = NULL;
 	char **arglist = NULL;
+	char **cmdArr = NULL;
 	int flag = 0;
-	int i = 0,
-		characters = 0; /*iterator alaways i will be used as iterator*/
+	int i = 0, j = 0; /*these are iterators alaways*/
+	int characters = 0;
+	int errorFlag = 0;
 	cmdType cmdBuiltin[] = {{"exit", exitCmd},
 							{"env", envCmd},
 							{"cd", changeDirectory},
@@ -40,84 +42,100 @@ int main(int argc, char *argv[], char *environ[])
 			kill(myPID, SIGQUIT);
 		}
 		replaceNewLine(inputStr);
-		arglist = slicing(inputStr, ' ');
+		cmdArr = slicing(inputStr, ';');
 		free(inputStr);
-
-		if (arglist[0] == ((void *)(0)))
+		j = 0;
+		while (cmdArr[j])
 		{
-			free2dArr(arglist);
-			if (binPathes != NULL)
-				free2dArr(binPathes);
-			exit(EXIT_SUCCESS);
-		}
-		i = 0;
-		while (cmdBuiltin[i].name)
-		{
-			if (_strcmp(arglist[0], cmdBuiltin[i].name) == 0)
+			arglist = slicing(cmdArr[j], ' ');
+			if (arglist[0] == ((void *)(0)))
 			{
-				if (binPathes != NULL)
-					free2dArr(binPathes);
-				if (cmdBuiltin[i].func(arglist, environ) == -1)
-					perror(arglist[0]);
 				free2dArr(arglist);
-				exit(EXIT_SUCCESS);
+				++j;
+				continue;
 			}
-			++i;
-		}
-		if (arglist[0][0] == '/' || arglist[0][0] == '.')
-		{
-			if (access(arglist[0], F_OK) == 0)
-			{
-				forkExe(arglist[0], arglist, environ);
-				if (binPathes != NULL)
-					free2dArr(binPathes);
-				exit(EXIT_SUCCESS);
-			}
-			else
-			{
-				perror("./hsh: ");
-				free2dArr(arglist);
-				if (binPathes != NULL)
-					free2dArr(binPathes);
-				exit(EXIT_FAILURE);
-			}
-		}
-		else
-		{
 			i = 0;
-			while (binPathes[i])
+			while (cmdBuiltin[i].name)
 			{
-				cmd = _strcatheap(binPathes[i], arglist[0]);
-				if (access(cmd, F_OK) == 0)
+				flag = 0;
+				if (_strcmp(arglist[0], cmdBuiltin[i].name) == 0)
 				{
+					if (cmdBuiltin[i].func(arglist, environ) == -1)
+					{
+						perror(arglist[0]);
+						errorFlag++;
+					}
+
+					free2dArr(arglist);
+					flag = 1;
 					break;
+				}
+				++i;
+			}
+			if (flag == 1)
+			{
+				++j;
+				continue;
+			}
+			if (arglist[0][0] == '/' || arglist[0][0] == '.')
+			{
+				if (access(arglist[0], F_OK) == 0)
+				{
+					if (forkExe(arglist[0], arglist, environ) != 0)
+					{
+						errorFlag++;
+					}
 				}
 				else
 				{
-					free(cmd);
-					++i;
+					perror("./hsh: ");
+					free2dArr(arglist);
+					errorFlag++;
 				}
-			}
-			if (binPathes[i] != NULL)
-			{
-				forkExe(cmd, arglist, environ);
-				if (binPathes != NULL)
-					free2dArr(binPathes);
-				exit(EXIT_SUCCESS);
 			}
 			else
 			{
-				perror("./hsh: ");
-				free2dArr(arglist);
-				if (binPathes != NULL)
-					free2dArr(binPathes);
-				exit(EXIT_FAILURE);
+				i = 0;
+				while (binPathes[i])
+				{
+					cmd = _strcatheap(binPathes[i], arglist[0]);
+					if (access(cmd, F_OK) == 0)
+					{
+						break;
+					}
+					else
+					{
+						free(cmd);
+						++i;
+					}
+				}
+				if (binPathes[i] != NULL)
+				{
+					if (forkExe(cmd, arglist, environ) != 0)
+					{
+						errorFlag++;
+					}
+				}
+				else
+				{
+					perror("./hsh: ");
+					free2dArr(arglist);
+					errorFlag++;
+				}
 			}
+			++j;
 		}
+		if (binPathes != NULL)
+			free2dArr(binPathes);
+		free2dArr(cmdArr);
+		if (errorFlag == j)
+			exit(2);
+		exit(EXIT_SUCCESS);
 	}
 
 	if (argc > 1)
 	{
+
 		i = 0;
 		while (cmdBuiltin[i].name)
 		{
@@ -192,82 +210,87 @@ int main(int argc, char *argv[], char *environ[])
 			kill(myPID, SIGQUIT);
 		}
 		replaceNewLine(inputStr);
-		arglist = slicing(inputStr, ' ');
+		cmdArr = slicing(inputStr, ';');
+		j = 0;
+		while (cmdArr[j])
+		{
+			arglist = slicing(cmdArr[j], ' ');
 
-		if (arglist[0] == ((void *)(0)))
-			continue;
-		i = 0;
-		while (cmdBuiltin[i].name)
-		{
-			flag = 0;
-			if (_strcmp(arglist[0], cmdBuiltin[i].name) == 0)
+			if (arglist[0] == ((void *)(0)))
 			{
-				if (_strcmp(cmdBuiltin[i].name, "exit") == 0)
-				{
-					free(inputStr);
-					if (binPathes != NULL)
-						free2dArr(binPathes);
-					cmdBuiltin[i].func(arglist, environ);
-				}
-				if (cmdBuiltin[i].func(arglist, environ) == -1)
-				{
-					perror(arglist[0]);
-				}
-				free2dArr(arglist);
-				flag = 1;
-				break;
-			}
-			++i;
-		}
-		if (flag == 1)
-		{
-			continue;
-		}
-
-		else if (_strcmp(arglist[0], "cd") == 0)
-		{
-			if (changeDirectory(arglist, environ) == -1)
-				perror(argv[0]);
-			continue;
-		}
-		if (arglist[0][0] == '/' || arglist[0][0] == '.')
-		{
-			if (access(arglist[0], F_OK) == 0)
-			{
-				forkExe(arglist[0], arglist, environ);
-			}
-			else
-			{
-				perror("./hsh: ");
-				free2dArr(arglist);
+				++j;
 				continue;
 			}
-		}
-		else
-		{
 			i = 0;
-			while (binPathes[i])
+			while (cmdBuiltin[i].name)
 			{
-				cmd = _strcatheap(binPathes[i], arglist[0]);
-				if (access(cmd, F_OK) == 0)
+				flag = 0;
+				if (_strcmp(arglist[0], cmdBuiltin[i].name) == 0)
 				{
+					if (_strcmp(cmdBuiltin[i].name, "exit") == 0)
+					{
+						free(inputStr);
+						if (binPathes != NULL)
+							free2dArr(binPathes);
+						free2dArr(cmdArr);
+						cmdBuiltin[i].func(arglist, environ);
+					}
+					if (cmdBuiltin[i].func(arglist, environ) == -1)
+					{
+						perror(arglist[0]);
+					}
+					free2dArr(arglist);
+					flag = 1;
 					break;
+				}
+				++i;
+			}
+			if (flag == 1)
+			{
+				++j;
+				continue;
+			}
+			if (arglist[0][0] == '/' || arglist[0][0] == '.')
+			{
+				if (access(arglist[0], F_OK) == 0)
+				{
+					forkExe(arglist[0], arglist, environ);
 				}
 				else
 				{
-					free(cmd);
-					++i;
+					perror("./hsh: ");
+					free2dArr(arglist);
+					continue;
 				}
-			}
-			if (binPathes[i] != NULL)
-			{
-				forkExe(cmd, arglist, environ);
 			}
 			else
 			{
-				perror("./hsh: ");
-				free2dArr(arglist);
+				i = 0;
+				while (binPathes[i])
+				{
+					cmd = _strcatheap(binPathes[i], arglist[0]);
+					if (access(cmd, F_OK) == 0)
+					{
+						break;
+					}
+					else
+					{
+						free(cmd);
+						++i;
+					}
+				}
+				if (binPathes[i] != NULL)
+				{
+					forkExe(cmd, arglist, environ);
+				}
+				else
+				{
+					perror("./hsh: ");
+					free2dArr(arglist);
+				}
 			}
+			++j;
 		}
+		free2dArr(cmdArr);
 	}
 }

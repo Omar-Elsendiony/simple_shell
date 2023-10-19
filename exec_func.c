@@ -7,10 +7,10 @@
  * @envp: environmental variable
  * Return: nothing void func
  */
-void forkExe(char *inputCmd, char *argv[], char *envp[])
+int forkExe(char *inputCmd, char *argv[], char *envp[])
 {
 	int id = 0;
-	int STATE_LOCK;
+	int STATE_LOCK = 0;
 
 	id = fork();
 	if (id < 0)
@@ -27,9 +27,11 @@ void forkExe(char *inputCmd, char *argv[], char *envp[])
 		if (_strcmp(inputCmd, argv[0]) == 0)
 		{
 			free2dArr(argv);
-			return;
+			return (STATE_LOCK);
 		}
 		free(inputCmd);
 		free2dArr(argv);
+		return (STATE_LOCK);
 	}
+	return (STATE_LOCK);
 }

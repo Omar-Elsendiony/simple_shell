@@ -135,3 +135,20 @@ void free2dArr(char **arr)
 	}
 	free(arr);
 }
+/*
+int main()
+{
+	char *p = "    /bin/ls;  jlkj    ;";
+	char **arg = NULL;
+	int num = 0;
+
+	num = word_count(p, ';');
+	arg = slicing(p, ';');
+	for (int i = 0; arg[i]; ++i)
+	{
+		printf("%s\n", arg[i]);
+	}
+	printf("number of words %d\n", num);
+	return (0);
+}
+*/

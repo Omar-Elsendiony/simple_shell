@@ -7,7 +7,7 @@
  * @envp: environmental variable
  * Return: nothing void func
  */
-void forkExe2(char *inputCmd, char *argv[], char *envp[])
+int forkExe2(char *inputCmd, char *argv[], char *envp[])
 {
 	int id = 0;
 	int STATE_LOCK;
@@ -26,8 +26,10 @@ void forkExe2(char *inputCmd, char *argv[], char *envp[])
 		wait(&STATE_LOCK);
 		if (_strcmp(inputCmd, argv[0]) == 0)
 		{
-			return;
+			return (STATE_LOCK);
 		}
 		free(inputCmd);
+		return (STATE_LOCK);
 	}
+	return (STATE_LOCK);
 }
